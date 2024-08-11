@@ -8,7 +8,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Ajouter les fichiers sources
-set(SOURCES Engine/main.cpp Engine/Shader.cpp)
+set(SOURCES Engine/main.cpp Engine/Shader.cpp
+        Game/Voxel.cpp
+        Game/Voxel.h
+        Game/Block.cpp
+        Game/Block.h
+        Game/Chunck.cpp
+        Game/Chunck.h
+        Game/World.cpp
+        Game/World.h)
 
 # Créer l'exécutable
 add_executable(opengl_tests ${SOURCES})
