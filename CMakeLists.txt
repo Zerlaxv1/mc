@@ -13,25 +13,22 @@ set(SOURCES Engine/main.cpp Engine/Shader.cpp
         Game/Voxel.h
         Game/Block.cpp
         Game/Block.h
-        Game/Chunck.cpp
-        Game/Chunck.h
+        Game/Chunk.cpp
+        Game/Chunk.h
         Game/World.cpp
         Game/World.h)
 
 # Créer l'exécutable
 add_executable(opengl_tests ${SOURCES})
 
-# Trouver et lier OpenGL
+##OpenGL
 find_package(OpenGL REQUIRED)
 
-# Trouver et inclure GLEW
-# find_package(GLEW REQUIRED)
-# Si GLEW n'est pas trouvé automatiquement, décommente et ajuste les lignes suivantes
- set(GLEW_INCLUDE_DIRS "C:/Users/Nino/Downloads/gl/glew-2.1.0/include")
- set(GLEW_LIBRARIES "C:/Users/Nino/Downloads/gl/glew-2.1.0/lib/Release/x64/glew32.lib")
+##GLEW
+find_package(GLEW REQUIRED)
 
 # Inclure les répertoires d'en-têtes trouvés
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 # Lier les bibliothèques nécessaires
-target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} opengl32 user32 gdi32)
+target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW opengl32 user32 gdi32)
