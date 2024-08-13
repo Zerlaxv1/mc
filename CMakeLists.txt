@@ -32,3 +32,8 @@ include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 # Lier les bibliothèques nécessaires
 target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW opengl32 user32 gdi32)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_EXE_LINKER_FLAGS -static)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -Os")
+endif()
