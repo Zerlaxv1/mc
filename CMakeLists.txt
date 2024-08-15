@@ -16,7 +16,8 @@ set(SOURCES Engine/main.cpp Engine/Shader.cpp
         Game/Chunk.cpp
         Game/Chunk.h
         Game/World.cpp
-        Game/World.h)
+        Game/World.h
+)
 
 # Créer l'exécutable
 add_executable(opengl_tests ${SOURCES})

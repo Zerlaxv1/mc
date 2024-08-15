@@ -2,15 +2,22 @@
 // Created by Nino on 11/08/2024.
 //
 
-#ifndef CHUNCK_H
-#define CHUNCK_H
+#ifndef CHUNK_H
+#define CHUNK_H
+#include "Block.h"
 
 
+class Chunk {
+public:
+    static const int CHUNK_SIZE = 16;
+    Block block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
-class Chunck {
-
+    Chunk();
+    ~Chunk();
+    void activateBlock(int x, int y, int z);
+    static void renderChunk(const Chunk& chunk);
 };
 
 
 
-#endif //CHUNCK_H
+#endif //CHUNK_H

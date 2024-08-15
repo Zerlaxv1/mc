@@ -3,3 +3,9 @@
 //
 
 #include "Voxel.h"
+
+Voxel::Voxel() : isVisible(false), color() {}
+
+void Voxel::destroy() {
+    isVisible = false;
+}

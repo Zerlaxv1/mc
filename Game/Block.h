@@ -2,15 +2,19 @@
 // Created by Nino on 11/08/2024.
 //
 
-#ifndef BLOCKS_H
-#define BLOCKS_H
+#ifndef BLOCK_H
+#define BLOCK_H
+#include <vector>
+#include <GL/glew.h>
 
+class Block {
+public:
+    bool isVisible;
 
-
-class Blocks {
-
+    Block();
+    static void generateCubeMesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float x, float y, float z);
 };
 
 
 
-#endif //BLOCKS_H
+#endif //BLOCK_H
