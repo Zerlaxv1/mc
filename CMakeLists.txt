@@ -25,8 +25,6 @@ set(SOURCES
         src/Game/glTests.h
         src/Game/Game.cpp
         src/Game/Game.h
-        src/Engine/Renderer.cpp
-        src/Engine/Renderer.h
 )
 
 # Créer l'exécutable
