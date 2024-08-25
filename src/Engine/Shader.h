@@ -11,7 +11,7 @@ class Shader {
 public:
     static GLuint compileShader(GLenum type, const char* source);
 
-    static GLuint createProgram(const char *vertexSource, const char *fragmentSource);
+    static GLuint createProgram();
 };
 
 

@@ -8,15 +8,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Ajouter les fichiers sources
-set(SOURCES Engine/main.cpp Engine/Shader.cpp
-        Game/Voxel.cpp
-        Game/Voxel.h
-        Game/Block.cpp
-        Game/Block.h
-        Game/Chunk.cpp
-        Game/Chunk.h
-        Game/World.cpp
-        Game/World.h
+set(SOURCES src/main.cpp src/Engine/Shader.cpp
+        src/Game/Block.cpp
+        src/Game/Block.h
+        src/Game/Chunk.cpp
+        src/Game/Chunk.h
+        src/Game/World.cpp
+        src/Game/World.h
+        src/tools/Color.cpp
+        src/tools/Color.h
+        src/Engine/Window.cpp
+        src/Engine/Window.h
+        src/Game/glTests.cpp
+        src/Game/glTests.h
 )
 
 # Créer l'exécutable
@@ -26,13 +30,22 @@ add_executable(opengl_tests ${SOURCES})
 find_package(OpenGL REQUIRED)
 
 ##GLEW
-find_package(GLEW REQUIRED)
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+#    set(GLEW_USE_STATIC_LIBS ON)
+    find_package(GLEW REQUIRED)
+else()
+    find_package(GLEW REQUIRED)
+endif()
 
 # Inclure les répertoires d'en-têtes trouvés
-include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+#include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 # Lier les bibliothèques nécessaires
 target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW opengl32 user32 gdi32)
+
+if (DEBUG_LEVEL)
+    add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
+endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS -static)

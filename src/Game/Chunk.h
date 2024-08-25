@@ -10,12 +10,12 @@
 class Chunk {
 public:
     static const int CHUNK_SIZE = 16;
-    Block block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+    Block blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
     Chunk();
     ~Chunk();
     void activateBlock(int x, int y, int z);
-    static void renderChunk(const Chunk& chunk);
+    static void renderChunk(const Chunk& chunk, GLuint shaderProgram);
 };
 
 
