@@ -15,7 +15,9 @@ public:
 
     Chunk& getChunk(int x, int y, int z);
     void activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ);
-    static void renderWorld(const World& world, GLuint shaderProgram);
+    // static void renderWorld(const World& world, GLuint shaderProgram);
+    void generateFlatWorld();
+    void render();
 };
 
 #endif //WORLD_H

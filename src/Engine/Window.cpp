@@ -32,6 +32,11 @@ Window::Window() {
     RegisterClassEx(&c);
 }
 
+Window::~Window() {
+    DestroyWindow(window);
+    UnregisterClass("minecraft", GetModuleHandle(nullptr));
+}
+
 void Window::create(LPCSTR jsp, LPCSTR name) {
     window = CreateWindow(jsp, name, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
 }
@@ -41,4 +46,16 @@ HWND Window::getHandle() {
         create("minecraft", "super minecraft clone 3000");
     }
     return window;
+}
+
+bool Window::processMessages() {
+    MSG msg;
+    while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0) {
+        if(msg.message == WM_QUIT) {
+            return false;
+        }
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    return true;
 }

@@ -18,8 +18,20 @@ void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int vo
     chunk.activateBlock(voxelX, voxelY, voxelZ);
 }
 
-void World::renderWorld(const World& world, GLuint shaderProgram) {
-    for (const auto& [pos, chunk] : world.chunks) {
-        Chunk::renderChunk(chunk, shaderProgram);
+// void World::renderWorld(const World& world, GLuint shaderProgram) {
+    // for (const auto& [pos, chunk] : world.chunks) {
+    //     Chunk::renderChunk(chunk, shaderProgram);
+    // }
+// }
+
+void World::generateFlatWorld() {
+    for (int x = 0; x < 16; x++) {
+        for (int z = 0; z < 16; z++) {
+            activateBlock(0, 0, 0, x, 0, z);
+        }
     }
+}
+
+void World::render() {
+
 }

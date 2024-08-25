@@ -3,10 +3,10 @@
 //
 
 #include "glTests.h"
-
-#include <iostream>
+#include "../Engine/Shader.h"
 
 glTests::glTests() {
+    shaderProgram = Shader::createProgram();
     VBO = 0;
     VAO = 0;
     EBO = 0;
@@ -63,7 +63,7 @@ glTests::glTests() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void glTests::renderTest(GLuint shaderProgram) {
+void glTests::renderTest() {
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

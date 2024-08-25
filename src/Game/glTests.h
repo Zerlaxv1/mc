@@ -10,11 +10,12 @@
 class glTests {
 public:
     glTests();
-    void renderTest(GLuint shaderProgram);
+    void renderTest();
 private:
     unsigned int VBO;
     unsigned int VAO;
     unsigned int EBO;
+    unsigned int shaderProgram;
 };
 
 

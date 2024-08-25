@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Ajouter les fichiers sources
-set(SOURCES src/main.cpp src/Engine/Shader.cpp
+set(SOURCES
+        src/main.cpp
+        src/Engine/Shader.cpp
         src/Game/Block.cpp
         src/Game/Block.h
         src/Game/Chunk.cpp
@@ -21,6 +23,10 @@ set(SOURCES src/main.cpp src/Engine/Shader.cpp
         src/Engine/Window.h
         src/Game/glTests.cpp
         src/Game/glTests.h
+        src/Game/Game.cpp
+        src/Game/Game.h
+        src/Engine/Renderer.cpp
+        src/Engine/Renderer.h
 )
 
 # Créer l'exécutable
