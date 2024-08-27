@@ -17,14 +17,12 @@ public:
     int run();
 
 private:
-    HWND window;
+    HWND windowHandle;
     HDC dc;
     HGLRC glrc;
     World world;
     bool running = true;
-    Window windowCreator;
-
-    void initOpenGL();
+    Window window;
 };
 
 

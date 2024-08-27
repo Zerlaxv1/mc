@@ -11,42 +11,17 @@
 #include "World.h"
 #include "../Engine/Window.h"
 
-void Game::initOpenGL() {
-    dc = GetDC(this->window);
-    PIXELFORMATDESCRIPTOR pfd = {0};
-    pfd.nSize = sizeof(pfd);
-    pfd.nVersion = 1;
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pfd.cColorBits = 32;
-    pfd.cAlphaBits = 8;
-    pfd.cDepthBits = 24;
-    int format = ChoosePixelFormat(dc, &pfd);
-    SetPixelFormat(dc, format, &pfd);
-    glrc = wglCreateContext(dc);
-    wglMakeCurrent(dc, glrc);
-
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "Error initializing GLEW" << std::endl;
-        exit(-1);
-    }
-}
-
 Game::Game() {
     dc = nullptr;
     glrc = nullptr;
 
-    // Create a window
-    window = windowCreator.getHandle();
-
-    // Initialize OpenGL
-    initOpenGL();
+    windowHandle = window.init(&dc, &glrc);
 }
 
 Game::~Game() {
-    wglMakeCurrent(NULL, NULL);
+    wglMakeCurrent(nullptr, nullptr);
     wglDeleteContext(glrc);
-    ReleaseDC(window, dc);
-    delete window;
+    ReleaseDC(windowHandle, dc);
 }
 
 int Game::run() {
@@ -54,7 +29,7 @@ int Game::run() {
     world = World();
     world.generateFlatWorld();
 
-    glTests gl = glTests();
+    auto gl = glTests();
 
     while (running) {
         // Gestion des messages de la fenêtre

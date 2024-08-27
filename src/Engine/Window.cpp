@@ -2,10 +2,10 @@
 // Created by Nino on 20/08/2024.
 //
 
+#include <GL/glew.h>
 #include <windows.h>
+#include <iostream>
 #include "Window.h"
-
-HWND window;
 
 LRESULT Window::window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam) {
     LRESULT result = 0;
@@ -20,6 +20,8 @@ LRESULT Window::window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 }
 
 Window::Window() {
+    dc = nullptr;
+    glrc = nullptr;
     window = nullptr;
 
     // Créer une fenêtre
@@ -37,15 +39,8 @@ Window::~Window() {
     UnregisterClass("minecraft", GetModuleHandle(nullptr));
 }
 
-void Window::create(LPCSTR jsp, LPCSTR name) {
+void Window::createWindow(LPCSTR jsp, LPCSTR name) {
     window = CreateWindow(jsp, name, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
-}
-
-HWND Window::getHandle() {
-    if (window == nullptr) {
-        create("minecraft", "super minecraft clone 3000");
-    }
-    return window;
 }
 
 bool Window::processMessages() {
@@ -58,4 +53,35 @@ bool Window::processMessages() {
         DispatchMessage(&msg);
     }
     return true;
+}
+
+void Window::initOpenGL() {
+    dc = GetDC(this->window);
+    PIXELFORMATDESCRIPTOR pfd = {0};
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.cColorBits = 32;
+    pfd.cAlphaBits = 8;
+    pfd.cDepthBits = 24;
+    int format = ChoosePixelFormat(dc, &pfd);
+    SetPixelFormat(dc, format, &pfd);
+    glrc = wglCreateContext(dc);
+    wglMakeCurrent(dc, glrc);
+
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Error initializing GLEW" << std::endl;
+        exit(-1);
+    }
+}
+
+HWND Window::init(HDC* dc, HGLRC* glrc) {
+    createWindow("minecraft", "super minecraft clone 3000");
+
+    initOpenGL();
+
+    *dc = this->dc;
+    *glrc = this->glrc;
+
+    return window;
 }

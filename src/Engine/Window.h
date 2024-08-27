@@ -12,12 +12,16 @@ public:
 
     Window();
     ~Window();
-    void create(LPCSTR jsp, LPCSTR name);
-    HWND getHandle();
+
+    void createWindow(LPCSTR jsp, LPCSTR name);
     static bool processMessages();
+    void initOpenGL();
+    HWND init(HDC* dc, HGLRC* glrc);
 
 private:
     static LRESULT window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
+    HDC dc;
+    HGLRC glrc;
 };
 
 
