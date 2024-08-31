@@ -55,3 +55,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS -static)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -Os")
 endif()
+
+# Copier les shaders
+add_custom_command(TARGET opengl_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Resources $<TARGET_FILE_DIR:opengl_tests>/Resources)
