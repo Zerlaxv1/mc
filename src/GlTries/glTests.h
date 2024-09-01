@@ -4,8 +4,8 @@
 
 #ifndef GLTESTS_H
 #define GLTESTS_H
-#include <GL/glew.h>
 
+#include "../Engine/Shader.h"
 
 class glTests {
 public:
@@ -15,7 +15,8 @@ private:
     unsigned int VBO;
     unsigned int VAO;
     unsigned int EBO;
-    unsigned int shaderProgram;
+    Shader shader;
+    // unsigned int shaderprgrm;
 };
 
 

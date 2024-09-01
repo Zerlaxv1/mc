@@ -2,11 +2,11 @@
 // Created by Nino on 22/08/2024.
 //
 
+#include <GL/glew.h>
 #include "glTests.h"
 #include "../Engine/Shader.h"
 
 glTests::glTests() {
-    shaderProgram = Shader::createProgram();
     VBO = 0;
     VAO = 0;
     EBO = 0;
@@ -46,7 +46,8 @@ glTests::glTests() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    /* GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
+    /*
+     GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
      GL_STATIC_DRAW: the data is set only once and used many times.
      GL_DYNAMIC_DRAW: the data is changed a lot and used many times.
     */
@@ -60,12 +61,11 @@ glTests::glTests() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void glTests::renderTest() {
-    glUseProgram(shaderProgram);
+    shader.use();
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
 }

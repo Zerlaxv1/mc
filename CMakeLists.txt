@@ -21,10 +21,14 @@ set(SOURCES
         src/tools/Color.h
         src/Engine/Window.cpp
         src/Engine/Window.h
-        src/Game/glTests.cpp
-        src/Game/glTests.h
+        src/GlTries/glTests.cpp
+        src/GlTries/glTests.h
         src/Game/Game.cpp
         src/Game/Game.h
+        src/Engine/Renderer.cpp
+        src/Engine/Renderer.h
+        src/GlTries/RendererTests.cpp
+        src/GlTries/RendererTests.h
 )
 
 # Créer l'exécutable

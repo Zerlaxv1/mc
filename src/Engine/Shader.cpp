@@ -22,10 +22,6 @@ std::string readShaderSource(const std::string& filePath) {
     return shaderStream.str();
 }
 
-// shaders
-const std::string vertexShaderSource = readShaderSource("../Resources/Shaders/Vertex.glsl");
-const std::string fragmentShaderSource = readShaderSource("../Resources/Shaders/fragment.glsl");
-
 GLuint Shader::compileShader(GLenum type, const char* source) {
     // Create shader of specified type
     GLuint shader = glCreateShader(type);
@@ -58,16 +54,16 @@ GLuint Shader::compileShader(GLenum type, const char* source) {
     return shader;
 }
 
-GLuint Shader::createProgram() {
+void Shader::createProgram() {
     // Compile shaders
     GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource.c_str());
     GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource.c_str());
 
     // Create shader program
-    GLuint shaderProgram = glCreateProgram();
+    shaderProgram = glCreateProgram();
     if (shaderProgram == 0) {
         std::cerr << "Error creating shader program!" << std::endl;
-        return 0;
+        return;
     }
 
     // Attach shaders and link program
@@ -84,12 +80,44 @@ GLuint Shader::createProgram() {
         glGetProgramInfoLog(shaderProgram, logLength, &logLength, log.data());
         std::cerr << "Shader program linking error: " << log.data() << std::endl;
         glDeleteProgram(shaderProgram);
-        return 0;
+        return;
     }
 
     // Cleanup
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+}
 
-    return shaderProgram;
+Shader::Shader() {
+    shaderProgram = 0;
+    vertexShaderSource = readShaderSource("./Resources/Shaders/Vertex.glsl");
+    fragmentShaderSource = readShaderSource("./Resources/Shaders/fragment.glsl");
+    createProgram();
+}
+
+Shader::Shader(const char* vertexPath, const char* fragmentPath) {
+    shaderProgram = 0;
+    vertexShaderSource = readShaderSource(vertexPath);
+    fragmentShaderSource = readShaderSource(fragmentPath);
+    createProgram();
+}
+
+Shader::~Shader() {
+    glDeleteProgram(shaderProgram);
+}
+
+void Shader::use() {
+    glUseProgram(shaderProgram);
+}
+
+void Shader::setBool(const std::string &name, bool value) const {
+    glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), (int)value);
+}
+
+void Shader::setInt(const std::string &name, int value) const {
+    glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), value);
+}
+
+void Shader::setFloat(const std::string &name, float value) const {
+    glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
 }

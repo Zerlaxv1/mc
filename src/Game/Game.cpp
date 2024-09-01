@@ -7,9 +7,11 @@
 #include <GL/glew.h>
 #include <windows.h>
 #include <iostream>
-#include "glTests.h"
 #include "World.h"
 #include "../Engine/Window.h"
+
+#include "../GlTries/glTests.h"
+#include "../GlTries/RendererTests.h"
 
 Game::Game() {
     dc = nullptr;
@@ -29,7 +31,8 @@ int Game::run() {
     world = World();
     world.generateFlatWorld();
 
-    auto gl = glTests();
+    // auto gl = glTests();
+    auto renderer_tests = RendererTests();
 
     while (running) {
         // Gestion des messages de la fenêtre
@@ -41,7 +44,8 @@ int Game::run() {
 
         // Rendre le monde
         // world.render();
-        gl.renderTest();
+        // gl.renderTest();
+        renderer_tests.run();
 
         // Afficher le rendu
         SwapBuffers(dc);
