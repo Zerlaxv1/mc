@@ -12,6 +12,7 @@
 
 #include "../GlTries/glTests.h"
 #include "../GlTries/RendererTests.h"
+#include "../GlTries/TexturesAndTransformations.h"
 
 Game::Game() {
     dc = nullptr;
@@ -32,7 +33,7 @@ int Game::run() {
     world.generateFlatWorld();
 
     // auto gl = glTests();
-    auto renderer_tests = RendererTests();
+    auto renderer_tests = TexturesAndTransformations();
 
     while (running) {
         // Gestion des messages de la fenêtre
@@ -45,7 +46,7 @@ int Game::run() {
         // Rendre le monde
         // world.render();
         // gl.renderTest();
-        renderer_tests.run();
+        renderer_tests.render();
 
         // Afficher le rendu
         SwapBuffers(dc);

@@ -29,6 +29,9 @@ set(SOURCES
         src/Engine/Renderer.h
         src/GlTries/RendererTests.cpp
         src/GlTries/RendererTests.h
+        src/GlTries/TexturesAndTransformations.cpp
+        src/GlTries/TexturesAndTransformations.h
+        src/GlTries/idk.cpp
 )
 
 # Créer l'exécutable
