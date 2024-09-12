@@ -51,6 +51,8 @@ GLuint Shader::compileShader(GLenum type, const char* source) {
         return -1;
     }
 
+    ID = shader;
+
     return shader;
 }
 
@@ -120,4 +122,8 @@ void Shader::setInt(const std::string &name, int value) const {
 
 void Shader::setFloat(const std::string &name, float value) const {
     glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
+}
+
+void Shader::setMatrix4fv(const std::string &name, const float* value) const {
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_FALSE, value);
 }

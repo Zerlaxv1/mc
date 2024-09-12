@@ -6,6 +6,9 @@
 
 #include <iostream>
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "stb_image.h"
 
 TexturesAndTransformations::TexturesAndTransformations() {
@@ -13,11 +16,11 @@ TexturesAndTransformations::TexturesAndTransformations() {
     VAO = 0;
     EBO = 0;
     float vertices[] = {
-        // positions            // colors           // texture
-        0.5f,  0.5f, 0.0f,      1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-        0.5f, -0.5f, 0.0f,      0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   0.0f, 1.0f  // top left
+        // positions                                                // texture
+        0.5f,  0.5f, 0.0f,          1.0f, 1.0f, // top right
+        0.5f, -0.5f, 0.0f,          1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f  // top left
    };
 
     GLuint indices[] = {
@@ -55,18 +58,15 @@ TexturesAndTransformations::TexturesAndTransformations() {
     */
 
 
-    // positions ( location = 0 ), 3 floats, not normalized, stride = 8 *, offset = 0
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    // positions ( location = 0 ), 3 floats, not normalized, stride = 5 *, offset = 0
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // colors ( location = 1 ), 3 floats, not normalized, stride = 8, offset = 3
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    // texture ( location = 1 ), 2 floats, not normalized, stride = 5 *, offset = 3
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     //// Texture
-
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
 
     // init things
     unsigned int texture;
@@ -99,12 +99,21 @@ TexturesAndTransformations::TexturesAndTransformations() {
     // free space
     stbi_image_free(data);
 
-
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void TexturesAndTransformations::render() {
     shader->use();
     glBindVertexArray(VAO);
+
+    // transformation
+    // model matrix
+    auto trans = glm::mat4(1.0f);
+    // matrix, angle, axis
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.5, 1.0));
+    // matrix, scale
+    trans = glm::scale(trans, glm::vec3(1.0, 1.5, 0.5));
+
+    shader->setMatrix4fv("transform", glm::value_ptr(trans));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
