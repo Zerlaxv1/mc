@@ -100,6 +100,14 @@ TexturesAndTransformations::TexturesAndTransformations() {
     stbi_image_free(data);
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    //Coordinates
+
+    // honnetement j'ai pas compris
+    auto ortho = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+
+    // fov, aspect ratio (16:9, 4:3 etc), near, far TODO: adapt to render distance
+    glm::mat4 proj = glm::perspective(glm::radians(90.0f), (float)width/(float)height, 0.1f, 100.0f);
 }
 
 void TexturesAndTransformations::render() {
