@@ -15,13 +15,57 @@ TexturesAndTransformations::TexturesAndTransformations() {
     VBO = 0;
     VAO = 0;
     EBO = 0;
-    float vertices[] = {
+    float vertices1rectangle[] = {
         // positions                                                // texture
         0.5f,  0.5f, 0.0f,          1.0f, 1.0f, // top right
         0.5f, -0.5f, 0.0f,          1.0f, 0.0f, // bottom right
         -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, // bottom left
         -0.5f,  0.5f, 0.0f,     0.0f, 1.0f  // top left
    };
+
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
 
     GLuint indices[] = {
         0, 1, 3,   // first triangle
@@ -105,23 +149,54 @@ TexturesAndTransformations::TexturesAndTransformations() {
 
     // honnetement j'ai pas compris
     auto ortho = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-
-    // fov, aspect ratio (16:9, 4:3 etc), near, far TODO: adapt to render distance
-    glm::mat4 proj = glm::perspective(glm::radians(90.0f), (float)width/(float)height, 0.1f, 100.0f);
 }
 
 void TexturesAndTransformations::render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
     shader->use();
     glBindVertexArray(VAO);
 
-    // transformation
-    // model matrix
-    auto trans = glm::mat4(1.0f);
-    // matrix, angle, axis
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.5, 1.0));
-    // matrix, scale
-    trans = glm::scale(trans, glm::vec3(1.0, 1.5, 0.5));
+    glm::vec3 cubePositions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f),
+        glm::vec3( 2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3( 2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3( 1.3f, -2.0f, -2.5f),
+        glm::vec3( 1.5f,  2.0f, -2.5f),
+        glm::vec3( 1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
 
-    shader->setMatrix4fv("transform", glm::value_ptr(trans));
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // // model matrix
+    // auto model = glm::mat4(1.0f);
+    // // matrix, angle, axis
+    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
+
+    for(unsigned int i = 0; i < 10; i++)
+    {
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, cubePositions[i]);
+        float angle = 20.0f * i;
+        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+
+        // camera
+        // we're translating the scene in the reverse direction of where we want to move to simulate a camera moving
+        auto view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+        // projection
+        // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
+        glm::mat4 projection;
+        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+        // set the matrices
+        shader->setMatrix4fv("model", glm::value_ptr(model));
+        shader->setMatrix4fv("view", glm::value_ptr(view));
+        shader->setMatrix4fv("projection", glm::value_ptr(projection));
+
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 }
