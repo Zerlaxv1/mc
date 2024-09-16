@@ -32,6 +32,8 @@ set(SOURCES
         src/GlTries/TexturesAndTransformations.cpp
         src/GlTries/TexturesAndTransformations.h
         src/GlTries/idk.cpp
+        src/Engine/WindowGLFW.cpp
+        src/Engine/WindowGLFW.h
 )
 
 # Créer l'exécutable
