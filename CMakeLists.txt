@@ -37,22 +37,31 @@ set(SOURCES
 # Créer l'exécutable
 add_executable(opengl_tests ${SOURCES})
 
-##OpenGL
+#OpenGL and link
 find_package(OpenGL REQUIRED)
+target_link_libraries(opengl_tests PRIVATE ${OPENGL_LIBRARIES})
 
-##GLEW
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-#    set(GLEW_USE_STATIC_LIBS ON)
-    find_package(GLEW REQUIRED)
-else()
-    find_package(GLEW REQUIRED)
-endif()
+# Find and link GLEW
+find_package(GLEW REQUIRED)
+target_link_libraries(opengl_tests PRIVATE GLEW::GLEW)
+
+# Find and link GLFW
+find_package(glfw3 REQUIRED)
+target_link_libraries(opengl_tests PRIVATE glfw)
+
+## Find and link GLAD
+#find_package(GLAD REQUIRED)
+#target_link_libraries(opengl_tests PRIVATE glad)
 
 # Inclure les répertoires d'en-têtes trouvés
 #include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
+# Include directories
+target_include_directories(opengl_tests PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS})
+
+#plus besoin
 # Lier les bibliothèques nécessaires
-target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW opengl32 user32 gdi32)
+#target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW GLFW3::GLFW3 opengl32 user32 gdi32)
 
 if (DEBUG_LEVEL)
     add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
