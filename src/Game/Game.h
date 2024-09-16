@@ -5,9 +5,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <GL/glew.h>
+#include "../Engine/WindowGLFW.h"
 #include <windows.h>
 #include "World.h"
-#include "../Engine/Window.h"
 
 
 class Game {
@@ -17,12 +18,8 @@ public:
     int run();
 
 private:
-    HWND windowHandle;
-    HDC dc;
-    HGLRC glrc;
     World world;
-    bool running = true;
-    Window window;
+    WindowGLFW windowGLFW;
 };
 
 

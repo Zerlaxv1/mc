@@ -3,54 +3,41 @@
 //
 
 #include "Game.h"
-
 #include <GL/glew.h>
-#include <windows.h>
-#include <iostream>
+#include <GLFW/glfw3.h>
 #include "World.h"
-#include "../Engine/Window.h"
-
 #include "../GlTries/glTests.h"
-#include "../GlTries/RendererTests.h"
 #include "../GlTries/TexturesAndTransformations.h"
 
 Game::Game() {
-    dc = nullptr;
-    glrc = nullptr;
-
-    windowHandle = window.init(&dc, &glrc);
-}
-
-Game::~Game() {
-    wglMakeCurrent(nullptr, nullptr);
-    wglDeleteContext(glrc);
-    ReleaseDC(windowHandle, dc);
-}
-
-int Game::run() {
     // Créer une instance de World
     world = World();
     world.generateFlatWorld();
+}
 
-    // auto gl = glTests();
+int Game::run() {
+    // create the renderer
     auto renderer_tests = TexturesAndTransformations();
+    // Gestion des messages de la fenêtre
+    // running = Window::processMessages();
 
-    while (running) {
-        // Gestion des messages de la fenêtre
-        running = Window::processMessages();
+    while (!windowGLFW.shouldClose()) {
+        //inputs
+        windowGLFW.processInput();
 
-        // Effacer l'écran
-        glClearColor(0, 0, 0, 0);
+        // Rendering
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Rendre le monde
-        // world.render();
-        // gl.renderTest();
         renderer_tests.render();
 
-        // Afficher le rendu
-        SwapBuffers(dc);
+        // Swap buffers
+        glfwSwapBuffers(windowGLFW.window);
+        glfwPollEvents();
     }
 
+    windowGLFW.terminate();
     return 0;
 }
+
+Game::~Game() = default;
