@@ -23,7 +23,16 @@ int Game::run() {
 
     while (!windowGLFW.shouldClose()) {
         //inputs
-        windowGLFW.processInput();
+        int key = windowGLFW.processInput();
+        if(key != 0) {
+            if (key == GLFW_KEY_ESCAPE) {
+                windowGLFW.terminate();
+                return 0;
+            }
+            if (key == GLFW_KEY_Z) {
+                renderer_tests.cameraMovement(glm::vec3(0.0f, 0.0f, 0.1f));
+            }
+        }
 
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

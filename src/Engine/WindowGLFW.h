@@ -16,8 +16,8 @@ public:
 
     void createWindow(const char* title, int width, int height);
     void terminate();
-    void processInput();
-    bool shouldClose();
+    int processInput();
+    bool shouldClose() const;
 private:
 };
 

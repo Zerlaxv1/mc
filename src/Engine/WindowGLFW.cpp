@@ -57,12 +57,24 @@ void WindowGLFW::terminate() {
     glfwTerminate();
 }
 
-void WindowGLFW::processInput()
+int WindowGLFW::processInput()
 {
+    // const float cameraSpeed = 0.05f; // adjust accordingly
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+        return GLFW_KEY_Z;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        return GLFW_KEY_S;
+        // cameraPos -= cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        return GLFW_KEY_Q;
+        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        return GLFW_KEY_D;
+        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
-bool WindowGLFW::shouldClose() {
+bool WindowGLFW::shouldClose() const {
     return glfwWindowShouldClose(window);
 }

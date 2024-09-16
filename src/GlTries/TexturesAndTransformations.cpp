@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -23,7 +24,7 @@ TexturesAndTransformations::TexturesAndTransformations() {
         -0.5f,  0.5f, 0.0f,     0.0f, 1.0f  // top left
    };
 
-    float vertices[] = {
+    constexpr float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -103,11 +104,11 @@ TexturesAndTransformations::TexturesAndTransformations() {
 
 
     // positions ( location = 0 ), 3 floats, not normalized, stride = 5 *, offset = 0
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), static_cast<void *>(nullptr));
     glEnableVertexAttribArray(0);
 
     // texture ( location = 1 ), 2 floats, not normalized, stride = 5 *, offset = 3
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     //// Texture
@@ -157,7 +158,7 @@ void TexturesAndTransformations::render() {
     shader->use();
     glBindVertexArray(VAO);
 
-    glm::vec3 cubePositions[] = {
+    constexpr glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 2.0f,  5.0f, -15.0f),
         glm::vec3(-1.5f, -2.2f, -2.5f),
@@ -178,24 +179,23 @@ void TexturesAndTransformations::render() {
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
         // camera
-        // we're translating the scene in the reverse direction of where we want to move to simulate a camera moving
-        auto view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        // // we're translating the scene in the reverse direction of where we want to move to simulate a camera moving
+        // auto view = glm::mat4(1.0f);
+        // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
         // projection
         // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-        //camera
+        ///camera
 
-        glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+        cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+        cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+        cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 
-        //where the camera is pointing at
-        glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-
-        //reverse direction of the camera
-        glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+        glm::mat4 view;
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         // set the matrices
         shader->setMatrix4fv("model", glm::value_ptr(model));
@@ -204,4 +204,8 @@ void TexturesAndTransformations::render() {
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
+}
+
+void TexturesAndTransformations::cameraMovement(const glm::vec3 c) {
+    cameraPos = c;
 }
