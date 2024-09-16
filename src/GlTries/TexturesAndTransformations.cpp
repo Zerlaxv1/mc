@@ -130,7 +130,7 @@ TexturesAndTransformations::TexturesAndTransformations() {
 
     //load image
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *data = stbi_load("./Resources/Textures/bg.jpg", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load("./Resources/Textures/dirt.png", &width, &height, &nrChannels, 0);
 
     if (data) {
         // generate texture from image data
@@ -170,16 +170,11 @@ void TexturesAndTransformations::render() {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    // // model matrix
-    // auto model = glm::mat4(1.0f);
-    // // matrix, angle, axis
-    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
-
     for(unsigned int i = 0; i < 10; i++)
     {
-        glm::mat4 model = glm::mat4(1.0f);
+        auto model = glm::mat4(1.0f);
         model = glm::translate(model, cubePositions[i]);
-        float angle = 20.0f * i;
+        float angle = 25.0f * i;
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
         // camera
@@ -191,6 +186,16 @@ void TexturesAndTransformations::render() {
         // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+        //camera
+
+        glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+
+        //where the camera is pointing at
+        glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+
+        //reverse direction of the camera
+        glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 
         // set the matrices
         shader->setMatrix4fv("model", glm::value_ptr(model));
