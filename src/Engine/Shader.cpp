@@ -7,7 +7,6 @@
 #include <string>
 #include <GL/glew.h>
 #include "Shader.h"
-#include <GL/GL.h>
 #include <iostream>
 #include <vector>
 
