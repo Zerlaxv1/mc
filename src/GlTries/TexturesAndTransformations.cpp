@@ -150,6 +150,11 @@ void TexturesAndTransformations::render() {
     shader->use();
     glBindVertexArray(VAO);
 
+
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
     ///view matrix
     glm::mat4 view;
     view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -178,7 +183,7 @@ void TexturesAndTransformations::render() {
 }
 
 void TexturesAndTransformations::cameraMovement(Camera_Movement c) {
-    const float cameraSpeed = 0.02f;
+    const float cameraSpeed = 5.0f * deltaTime;
     if (c == FORWARD) {
         cameraPos += cameraSpeed * cameraFront;
     }

@@ -36,6 +36,9 @@ private:
     glm::vec3 cameraFront;
     glm::vec3 cameraUp;
 
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
+
     glm::vec3 cubePositions[10] = {
             glm::vec3( 0.0f,  0.0f,  0.0f),
             glm::vec3( 2.0f,  5.0f, -15.0f),
