@@ -26,7 +26,7 @@ public:
     void cameraMovement(Camera_Movement c);
 
     void processInput(GLFWwindow *window);
-
+    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch);
 private:
     unsigned int VBO;
     unsigned int VAO;
@@ -38,6 +38,9 @@ private:
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
+
+    float yaw = -90.0f;
+    float pitch = 0.0f;
 
     glm::vec3 cubePositions[10] = {
             glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -55,6 +58,7 @@ private:
     std::unique_ptr<Shader> shader =
         std::make_unique<Shader>("./Resources/Shaders/VertexTextures.glsl",
             "./Resources/Shaders/fragmentTextures.glsl");
+
 };
 
 

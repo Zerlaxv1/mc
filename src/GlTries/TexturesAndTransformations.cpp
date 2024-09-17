@@ -139,6 +139,7 @@ TexturesAndTransformations::TexturesAndTransformations() {
     // debug triangles
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    //init camera
     cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
     cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -202,4 +203,24 @@ void TexturesAndTransformations::cameraMovement(Camera_Movement c) {
     if (c == DOWN) {
         cameraPos -= cameraSpeed * cameraUp;
     }
+}
+void TexturesAndTransformations::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true) {
+    float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw   += xoffset;
+    pitch += yoffset;
+
+    if (constrainPitch) {
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+    }
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(direction);
 }

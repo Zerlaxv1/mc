@@ -11,7 +11,6 @@
 #include "World.h"
 #include "../GlTries/TexturesAndTransformations.h"
 
-
 class Game {
 public:
     Game();
@@ -19,6 +18,7 @@ public:
     int run();
 
     void processInput();
+    void processMouseMovement(double xpos, double ypos);
 private:
     World world;
     WindowGLFW windowGLFW;

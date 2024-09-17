@@ -20,6 +20,9 @@ public:
     bool shouldClose() const;
     bool GetKey(int key);
     void CloseWindow();
+private:
+    float lastX = 400, lastY = 300;
+    bool firstMouse = true;
 };
 
 

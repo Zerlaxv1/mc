@@ -6,11 +6,40 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "WindowGLFW.h"
+#include "../Game/Game.h"
 
 void framebuffer_size_callback([[maybe_unused]] GLFWwindow* _, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
+void mouse_callback(GLFWwindow* _, double xpos, double ypos, Game* game)
+{
+    static bool firstMouse = true;
+    static float lastX = 400, lastY = 300;
+
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
+    game->processMouseMovement(xoffset, yoffset);
+}
+
+void mouse_callback_glfw(GLFWwindow* window, double xpos, double ypos)
+{
+    // Récupérer le pointeur vers l'instance de Game
+    Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+    if (game) {
+        mouse_callback(window, xpos, ypos, game);
+    }
+}
 
 WindowGLFW::WindowGLFW() {
     window = nullptr;
@@ -20,8 +49,8 @@ WindowGLFW::WindowGLFW() {
         std::cout << "Failed to initialize GLFW" << std::endl;
         return;
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //macOS:
@@ -31,12 +60,14 @@ WindowGLFW::WindowGLFW() {
 
     createWindow("super mc clone 3000", 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    glfwSetCursorPosCallback(window, mouse_callback_glfw);
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
         std::cerr << "Error initializing GLEW" << std::endl;
         exit(-1);
     }
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 WindowGLFW::~WindowGLFW() {
@@ -55,24 +86,6 @@ void WindowGLFW::createWindow(const char *title, int width, int height) {
 
 void WindowGLFW::terminate() {
     glfwTerminate();
-}
-
-int WindowGLFW::processInput()
-{
-    // const float cameraSpeed = 0.05f; // adjust accordingly
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-        return GLFW_KEY_Z;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        return GLFW_KEY_S;
-        // cameraPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        return GLFW_KEY_Q;
-        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        return GLFW_KEY_D;
-        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
 bool WindowGLFW::GetKey(int key) {

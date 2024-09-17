@@ -11,6 +11,8 @@ Game::Game() {
     // Créer une instance de World
     world = World();
     world.generateFlatWorld();
+
+    glfwSetWindowUserPointer(windowGLFW.window, this);
 }
 
 int Game::run() {
@@ -50,8 +52,13 @@ void Game::processInput() {
         renderer_tests.cameraMovement(LEFT);
     if(windowGLFW.GetKey(GLFW_KEY_D))
         renderer_tests.cameraMovement(RIGHT);
-    if (windowGLFW.GetKey(GLFW_KEY_E))
+    if (windowGLFW.GetKey(GLFW_KEY_SPACE))
         renderer_tests.cameraMovement(UP);
-    if (windowGLFW.GetKey(GLFW_KEY_Q))
+    if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
         renderer_tests.cameraMovement(DOWN);
+}
+
+void Game::processMouseMovement(double xpos, double ypos) {
+    // constrainPitch : inverser haut et bas
+    renderer_tests.ProcessMouseMovement(xpos, ypos, true);
 }
