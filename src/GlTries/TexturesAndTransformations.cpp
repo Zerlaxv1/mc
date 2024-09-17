@@ -162,8 +162,7 @@ void TexturesAndTransformations::render() {
 
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
-    glm::mat4 projection;
-    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
     shader->setMatrix4fv("view", glm::value_ptr(view));
     shader->setMatrix4fv("projection", glm::value_ptr(projection));
@@ -173,7 +172,7 @@ void TexturesAndTransformations::render() {
         auto model = glm::mat4(1.0f);
         model = glm::translate(model, cubePositions[i]);
 
-        float angle = 25.0f * i;
+        float angle = 15.0f * i;
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
         // set the matrices

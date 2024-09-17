@@ -34,6 +34,8 @@ set(SOURCES
         src/GlTries/idk.cpp
         src/Engine/WindowGLFW.cpp
         src/Engine/WindowGLFW.h
+        src/Engine/Camera.cpp
+        src/Engine/Camera.h
 )
 
 # Créer l'exécutable
