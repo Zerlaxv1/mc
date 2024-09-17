@@ -50,4 +50,8 @@ void Game::processInput() {
         renderer_tests.cameraMovement(LEFT);
     if(windowGLFW.GetKey(GLFW_KEY_D))
         renderer_tests.cameraMovement(RIGHT);
+    if (windowGLFW.GetKey(GLFW_KEY_E))
+        renderer_tests.cameraMovement(UP);
+    if (windowGLFW.GetKey(GLFW_KEY_Q))
+        renderer_tests.cameraMovement(DOWN);
 }
