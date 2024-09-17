@@ -2,12 +2,10 @@
 // Created by Nino on 25/08/2024.
 //
 
-#include "Game.h"
 #include <GL/glew.h>
+#include "Game.h"
 #include <GLFW/glfw3.h>
 #include "World.h"
-#include "../GlTries/glTests.h"
-#include "../GlTries/TexturesAndTransformations.h"
 
 Game::Game() {
     // Créer une instance de World
@@ -16,23 +14,12 @@ Game::Game() {
 }
 
 int Game::run() {
-    // create the renderer
-    auto renderer_tests = TexturesAndTransformations();
     // Gestion des messages de la fenêtre
     // running = Window::processMessages();
 
     while (!windowGLFW.shouldClose()) {
-        //inputs
-        int key = windowGLFW.processInput();
-        if(key != 0) {
-            if (key == GLFW_KEY_ESCAPE) {
-                windowGLFW.terminate();
-                return 0;
-            }
-            if (key == GLFW_KEY_Z) {
-                renderer_tests.cameraMovement(glm::vec3(0.0f, 0.0f, 0.1f));
-            }
-        }
+        // Input
+        processInput();
 
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -50,3 +37,17 @@ int Game::run() {
 }
 
 Game::~Game() = default;
+
+void Game::processInput() {
+    // Gestion des inputs
+    if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
+        windowGLFW.CloseWindow();
+    if(windowGLFW.GetKey(GLFW_KEY_W))
+        renderer_tests.cameraMovement(FORWARD);
+    if(windowGLFW.GetKey(GLFW_KEY_S))
+        renderer_tests.cameraMovement(BACKWARD);
+    if(windowGLFW.GetKey(GLFW_KEY_A))
+        renderer_tests.cameraMovement(LEFT);
+    if(windowGLFW.GetKey(GLFW_KEY_D))
+        renderer_tests.cameraMovement(RIGHT);
+}

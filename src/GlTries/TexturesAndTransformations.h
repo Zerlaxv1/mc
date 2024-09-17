@@ -8,15 +8,20 @@
 #include <memory>
 #include <GLFW/glfw3.h>
 #include <glm/vec3.hpp>
-
 #include "../Engine/Shader.h"
 
+enum Camera_Movement {
+    FORWARD,
+    BACKWARD,
+    LEFT,
+    RIGHT
+};
 
 class TexturesAndTransformations {
 public:
     TexturesAndTransformations();
     void render();
-    void cameraMovement(glm::vec3 c);
+    void cameraMovement(Camera_Movement c);
 
     void processInput(GLFWwindow *window);
 

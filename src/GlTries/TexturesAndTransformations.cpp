@@ -2,11 +2,9 @@
 // Created by Nino on 07/09/2024.
 //
 
-#include "TexturesAndTransformations.h"
-
-#include <iostream>
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "TexturesAndTransformations.h"
+#include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -144,12 +142,17 @@ TexturesAndTransformations::TexturesAndTransformations() {
     // free space
     stbi_image_free(data);
 
+    // debug triangles
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //Coordinates
 
     // honnetement j'ai pas compris
-    auto ortho = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+//    auto ortho = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+
+    cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+    cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 }
 
 void TexturesAndTransformations::render() {
@@ -189,11 +192,6 @@ void TexturesAndTransformations::render() {
         projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
         ///camera
-
-        cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
-        cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-        cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
-
         glm::mat4 view;
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -206,6 +204,18 @@ void TexturesAndTransformations::render() {
     }
 }
 
-void TexturesAndTransformations::cameraMovement(const glm::vec3 c) {
-    cameraPos = c;
+void TexturesAndTransformations::cameraMovement(Camera_Movement c) {
+    const float cameraSpeed = 0.05f;
+    if (c == FORWARD) {
+        cameraPos += cameraSpeed * cameraFront;
+    }
+    if (c == BACKWARD) {
+        cameraPos -= cameraSpeed * cameraFront;
+    }
+    if (c == LEFT) {
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (c == RIGHT) {
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
 }

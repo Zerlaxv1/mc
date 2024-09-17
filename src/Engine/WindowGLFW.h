@@ -18,7 +18,8 @@ public:
     void terminate();
     int processInput();
     bool shouldClose() const;
-private:
+    bool GetKey(int key);
+    void CloseWindow();
 };
 
 

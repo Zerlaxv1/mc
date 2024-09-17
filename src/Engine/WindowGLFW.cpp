@@ -75,6 +75,14 @@ int WindowGLFW::processInput()
         // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
+bool WindowGLFW::GetKey(int key) {
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
+
+void WindowGLFW::CloseWindow() {
+    glfwSetWindowShouldClose(window, true);
+}
+
 bool WindowGLFW::shouldClose() const {
     return glfwWindowShouldClose(window);
 }

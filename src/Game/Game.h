@@ -9,6 +9,7 @@
 #include "../Engine/WindowGLFW.h"
 #include <windows.h>
 #include "World.h"
+#include "../GlTries/TexturesAndTransformations.h"
 
 
 class Game {
@@ -17,9 +18,11 @@ public:
     ~Game();
     int run();
 
+    void processInput();
 private:
     World world;
     WindowGLFW windowGLFW;
+    TexturesAndTransformations renderer_tests;
 };
 
 
