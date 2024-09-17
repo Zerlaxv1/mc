@@ -218,4 +218,10 @@ void TexturesAndTransformations::cameraMovement(Camera_Movement c) {
     if (c == RIGHT) {
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
+    if (c == UP) {
+        cameraPos += cameraSpeed * cameraUp;
+    }
+    if (c == DOWN) {
+        cameraPos -= cameraSpeed * cameraUp;
+    }
 }
