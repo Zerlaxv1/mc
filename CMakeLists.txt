@@ -29,7 +29,7 @@ set(SOURCES
         src/GlTries/RendererTests.h
         src/GlTries/TexturesAndTransformations.cpp
         src/GlTries/TexturesAndTransformations.h
-        src/GlTries/idk.cpp
+        src/tools/idk.cpp
         src/Engine/Window.cpp
         src/Engine/Window.h
         src/Engine/Camera.cpp
