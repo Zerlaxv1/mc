@@ -1,101 +1,87 @@
 //
-// Created by ninod on 16/09/2024.
+// Created by Nino on 20/08/2024.
 //
 
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <windows.h>
 #include <iostream>
 #include "Window.h"
-#include "../Game/Game.h"
 
-void framebuffer_size_callback([[maybe_unused]] GLFWwindow* _, int width, int height) {
-    glViewport(0, 0, width, height);
-}
-
-void mouse_callback(GLFWwindow* _, double xpos, double ypos, Game* game)
-{
-    static bool firstMouse = true;
-    static float lastX = 400, lastY = 300;
-
-    if (firstMouse)
-    {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
+LRESULT Window::window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam) {
+    LRESULT result = 0;
+    switch(msg) {
+        case WM_CLOSE:
+        case WM_DESTROY: {
+            PostQuitMessage(0);
+        } break;
+        default: { result = DefWindowProc(window, msg, wparam, lparam); }
     }
-
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-
-    game->processMouseMovement(xoffset, yoffset);
-}
-
-void mouse_callback_glfw(GLFWwindow* window, double xpos, double ypos)
-{
-    // Récupérer le pointeur vers l'instance de Game
-    Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
-    if (game) {
-        mouse_callback(window, xpos, ypos, game);
-    }
+    return result;
 }
 
 Window::Window() {
+    dc = nullptr;
+    glrc = nullptr;
     window = nullptr;
 
-    // Initialize GLFW
-    if (glfwInit() != GLFW_TRUE) {
-        std::cout << "Failed to initialize GLFW" << std::endl;
-        return;
+    // Créer une fenêtre
+    WNDCLASSEX c = {0};
+    c.cbSize = sizeof(c);
+    c.lpfnWndProc = window_proc;
+    c.style = CS_OWNDC | CS_VREDRAW | CS_HREDRAW;
+    c.lpszClassName = "minecraft";
+    c.hInstance = GetModuleHandle(nullptr);
+    RegisterClassEx(&c);
+}
+
+Window::~Window() {
+    DestroyWindow(window);
+    UnregisterClass("minecraft", GetModuleHandle(nullptr));
+}
+
+void Window::createWindow(LPCSTR jsp, LPCSTR name) {
+    window = CreateWindow(jsp, name, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+}
+
+bool Window::processMessages() {
+    MSG msg;
+    while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0) {
+        if(msg.message == WM_QUIT) {
+            return false;
+        }
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    return true;
+}
 
-    //macOS:
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
+void Window::initOpenGL() {
+    dc = GetDC(this->window);
+    PIXELFORMATDESCRIPTOR pfd = {0};
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.cColorBits = 32;
+    pfd.cAlphaBits = 8;
+    pfd.cDepthBits = 24;
+    int format = ChoosePixelFormat(dc, &pfd);
+    SetPixelFormat(dc, format, &pfd);
+    glrc = wglCreateContext(dc);
+    wglMakeCurrent(dc, glrc);
 
-    createWindow("super mc clone 3000", 800, 600);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback_glfw);
-    // Initialize GLEW
     if (glewInit() != GLEW_OK) {
         std::cerr << "Error initializing GLEW" << std::endl;
         exit(-1);
     }
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-Window::~Window() {
-    glfwTerminate();
-}
+HWND Window::init(HDC* dc, HGLRC* glrc) {
+    createWindow("minecraft", "super minecraft clone 3000");
 
-void Window::createWindow(const char *title, int width, int height) {
-    window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-    if (window == nullptr) {
-        std::cout << "Failed to create GLFW windowGLFW" << std::endl;
-        glfwTerminate();
-        return;
-    }
-    glfwMakeContextCurrent(window);
-}
+    initOpenGL();
 
-void Window::terminate() {
-    glfwTerminate();
-}
+    *dc = this->dc;
+    *glrc = this->glrc;
 
-bool Window::GetKey(int key) {
-    return glfwGetKey(window, key) == GLFW_PRESS;
-}
-
-void Window::CloseWindow() {
-    glfwSetWindowShouldClose(window, true);
-}
-
-bool Window::shouldClose() const {
-    return glfwWindowShouldClose(window);
+    return window;
 }

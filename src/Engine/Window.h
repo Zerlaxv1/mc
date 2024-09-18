@@ -1,29 +1,29 @@
 //
-// Created by ninod on 16/09/2024.
+// Created by Nino on 20/08/2024.
 //
 
-#ifndef OPENGL_TESTS_WINDOW_H
-#define OPENGL_TESTS_WINDOW_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
-#include <GLFW/glfw3.h>
 
 class Window {
 public:
+    HWND window;
+
     Window();
     ~Window();
 
-    GLFWwindow* window;
+    void createWindow(LPCSTR jsp, LPCSTR name);
+    static bool processMessages();
+    void initOpenGL();
+    HWND init(HDC* dc, HGLRC* glrc);
 
-    void createWindow(const char* title, int width, int height);
-    void terminate();
-    int processInput();
-    bool shouldClose() const;
-    bool GetKey(int key);
-    void CloseWindow();
 private:
-    float lastX = 400, lastY = 300;
-    bool firstMouse = true;
+    static LRESULT window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
+    HDC dc;
+    HGLRC glrc;
 };
 
 
-#endif //OPENGL_TESTS_WINDOW_H
+
+#endif //WINDOW_H
