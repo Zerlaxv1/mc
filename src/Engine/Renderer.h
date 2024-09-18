@@ -4,17 +4,15 @@
 
 #ifndef RENDERER_H
 #define RENDERER_H
-
 #include "Shader.h"
-#include "Camera.h"
-#include "Mesh.h"
+
 
 class Renderer {
 public:
     void init();
 
     Renderer();
-    Renderer(Mesh& mesh, Shader& shader, Camera& camera);
+    Renderer(float verticesArg[], int size , unsigned int indicesArg[], int size2);
     ~Renderer();
 
     void draw();
