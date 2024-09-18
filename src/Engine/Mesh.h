@@ -17,13 +17,13 @@ struct Vertex {
 class Mesh {
 public:
     Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
-    void draw();
 
 private:
     std::vector<Vertex> vertices;
     std::vector<GLuint> indices;
-    GLuint VAO, VBO, EBO;
     void setupMesh();
+
+    friend class Renderer;
 };
 
 
