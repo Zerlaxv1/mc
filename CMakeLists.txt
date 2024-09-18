@@ -27,8 +27,6 @@ set(SOURCES
         src/Engine/Renderer.h
         src/GlTries/RendererTests.cpp
         src/GlTries/RendererTests.h
-        src/GlTries/TexturesAndTransformations.cpp
-        src/GlTries/TexturesAndTransformations.h
         src/tools/idk.cpp
         src/Engine/Window.cpp
         src/Engine/Window.h

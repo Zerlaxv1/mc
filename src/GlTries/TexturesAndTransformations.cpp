@@ -151,7 +151,7 @@ void TexturesAndTransformations::render() {
     shader->use();
     glBindVertexArray(VAO);
 
-
+    //delta time
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;

@@ -10,12 +10,14 @@
 class RendererTests {
 public:
     RendererTests();
-    void run();
-
-    void ProcessKeyboard(Camera_Movement movement);
+    void render();
+    void ProcessKeyboard(Camera_Movement movement, float deltaTime);
+    void ProcessMouseMovement(double xpos, double ypos, bool cond);
 
 private:
     Renderer renderer;
+    std::vector<Vertex> vertices;
+    std::vector<GLuint> indices;
 };
 
 

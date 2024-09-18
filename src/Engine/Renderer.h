@@ -8,24 +8,25 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 class Renderer {
 public:
-    void init();
-
-    Renderer();
-    Renderer(Mesh& mesh, Shader& shader, Camera& camera);
+    Renderer(Mesh& mesh, Shader& shader, Camera& camera, Texture& texture);
     ~Renderer();
 
+    void init();
     void draw();
-    void copyVerticesData(float vertices[], int size);
-    void copyIndicesData(unsigned int indices[], int size);
+    void setTexture(const char* texturePath);
+    void ProcessKeyboard(Camera_Movement movement, float deltaTime);
+    void ProcessMouseMovement(double xpos, double ypos, bool cond);
 
-    float vertices;
-    unsigned int indices;
 private:
     unsigned int VBO, VAO, EBO;
     Shader shader;
+    Mesh mesh;
+    Camera camera;
+    Texture texture;
 };
 
 

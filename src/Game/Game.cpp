@@ -49,17 +49,17 @@ void Game::processInput() {
     if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
         windowGLFW.CloseWindow();
     if(windowGLFW.GetKey(GLFW_KEY_W))
-        renderer_tests.ProcessKeyboard(FORWARD);
+        renderer_tests.ProcessKeyboard(FORWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_S))
-        renderer_tests.ProcessKeyboard(BACKWARD);
+        renderer_tests.ProcessKeyboard(BACKWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_A))
-        renderer_tests.ProcessKeyboard(LEFT);
+        renderer_tests.ProcessKeyboard(LEFT, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_D))
-        renderer_tests.ProcessKeyboard(RIGHT);
+        renderer_tests.ProcessKeyboard(RIGHT, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_SPACE))
-        renderer_tests.ProcessKeyboard(UP);
+        renderer_tests.ProcessKeyboard(UP, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
-        renderer_tests.ProcessKeyboard(DOWN);
+        renderer_tests.ProcessKeyboard(DOWN , deltaTime);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
