@@ -15,7 +15,6 @@ public:
     Shader(const char* vertexPath, const char* fragmentPath);
     ~Shader();
 
-    unsigned int ID;
 
     void use();
     void setBool(const std::string &name, bool value) const;
@@ -23,6 +22,7 @@ public:
     void setFloat(const std::string &name, float value) const;
     void setMatrix4fv(const std::string &name, const float *value) const;
 private:
+    unsigned int ID;
     void createProgram();
     std::string vertexShaderSource;
     std::string fragmentShaderSource;

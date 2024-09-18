@@ -23,6 +23,10 @@ int Game::run() {
         // Input
         processInput();
 
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -45,17 +49,17 @@ void Game::processInput() {
     if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
         windowGLFW.CloseWindow();
     if(windowGLFW.GetKey(GLFW_KEY_W))
-        renderer_tests.cameraMovement(FORWARD);
+        renderer_tests.ProcessKeyboard(FORWARD);
     if(windowGLFW.GetKey(GLFW_KEY_S))
-        renderer_tests.cameraMovement(BACKWARD);
+        renderer_tests.ProcessKeyboard(BACKWARD);
     if(windowGLFW.GetKey(GLFW_KEY_A))
-        renderer_tests.cameraMovement(LEFT);
+        renderer_tests.ProcessKeyboard(LEFT);
     if(windowGLFW.GetKey(GLFW_KEY_D))
-        renderer_tests.cameraMovement(RIGHT);
+        renderer_tests.ProcessKeyboard(RIGHT);
     if (windowGLFW.GetKey(GLFW_KEY_SPACE))
-        renderer_tests.cameraMovement(UP);
+        renderer_tests.ProcessKeyboard(UP);
     if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
-        renderer_tests.cameraMovement(DOWN);
+        renderer_tests.ProcessKeyboard(DOWN);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
