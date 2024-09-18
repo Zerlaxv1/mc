@@ -19,8 +19,6 @@ set(SOURCES
         src/Game/World.h
         src/tools/Color.cpp
         src/tools/Color.h
-        src/Engine/Window.cpp
-        src/Engine/Window.h
         src/GlTries/glTests.cpp
         src/GlTries/glTests.h
         src/Game/Game.cpp
@@ -32,10 +30,14 @@ set(SOURCES
         src/GlTries/TexturesAndTransformations.cpp
         src/GlTries/TexturesAndTransformations.h
         src/GlTries/idk.cpp
-        src/Engine/WindowGLFW.cpp
-        src/Engine/WindowGLFW.h
+        src/Engine/Window.cpp
+        src/Engine/Window.h
         src/Engine/Camera.cpp
         src/Engine/Camera.h
+        src/Engine/Texture.cpp
+        src/Engine/Texture.h
+        src/Engine/Mesh.cpp
+        src/Engine/Mesh.h
 )
 
 # Créer l'exécutable

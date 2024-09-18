@@ -6,10 +6,10 @@
 #define GAME_H
 
 #include <GL/glew.h>
-#include "../Engine/WindowGLFW.h"
+#include "../Engine/Window.h"
 #include <windows.h>
 #include "World.h"
-#include "../GlTries/TexturesAndTransformations.h"
+#include "../GlTries/RendererTests.h"
 
 class Game {
 public:
@@ -21,8 +21,10 @@ public:
     void processMouseMovement(double xpos, double ypos);
 private:
     World world;
-    WindowGLFW windowGLFW;
-    TexturesAndTransformations renderer_tests;
+    Window windowGLFW;
+    RendererTests renderer_tests;
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
 };
 
 

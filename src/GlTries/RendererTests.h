@@ -11,6 +11,9 @@ class RendererTests {
 public:
     RendererTests();
     void run();
+
+    void ProcessKeyboard(Camera_Movement movement);
+
 private:
     Renderer renderer;
 };

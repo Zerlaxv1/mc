@@ -13,27 +13,13 @@ enum Camera_Movement {
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+    UP,
+    DOWN
 };
 
 class Camera {
 public:
-    // camera Attributes
-    glm::vec3 Position;
-    glm::vec3 Front;
-    glm::vec3 Up;
-    glm::vec3 Right;
-    glm::vec3 WorldUp;
-
-    // euler Angles
-    float Yaw;
-    float Pitch;
-
-    // camera options
-    float MovementSpeed;
-    float MouseSensitivity;
-    float Zoom;
-
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
 
@@ -54,6 +40,15 @@ public:
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();
+
+    // camera Attributes
+    glm::vec3 Position, Front, Up, Right, WorldUp;
+
+    // euler Angles
+    float Yaw, Pitch;
+
+    // camera options
+    float MovementSpeed, MouseSensitivity, Zoom;
 };
 
 
