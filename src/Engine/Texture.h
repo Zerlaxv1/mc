@@ -10,7 +10,7 @@
 
 class Texture {
 public:
-    Texture(const char* imagePath);
+    explicit Texture(const char* imagePath);
     void bind();
 
 private:
