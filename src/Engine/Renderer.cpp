@@ -1,6 +1,7 @@
 //
 // Created by Nino on 01/09/2024.
 //
+
 #include "Renderer.h"
 #include <iostream>
 #include <GL/glew.h>
@@ -24,10 +25,10 @@ void Renderer::init() {
     VAO = 0;
     EBO = 0;
 
-    // Créer un Vertex Buffer Object, il va contenir les vertices (data de sommets)
-    glGenBuffers(1, &VBO);
     // Créer un Vertex Array Object, il va contenir les configurations des attributs de sommets
     glGenVertexArrays(1, &VAO);
+    // Créer un Vertex Buffer Object, il va contenir les vertices (data de sommets)
+    glGenBuffers(1, &VBO);
     // Créer un Element Buffer Object, il va contenir les indices des vertices
     glGenBuffers(1, &EBO);
 
@@ -106,37 +107,15 @@ void Renderer::draw() {
     ///view matrix
     glm::mat4 view = camera.GetViewMatrix();
 
-    //debug
-//    std::cout << "View Matrix: \n" << glm::to_string(view) << std::endl;
-
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), AspectRatio, 0.1f, 100.0f);
 
     //debug
-//    std::cout << "Projection Matrix: \n" << glm::to_string(projection) << std::endl;
+    // std::cout << "View Matrix: \n" << glm::to_string(view) << std::endl;
 
-//    // Lire les données du VBO
-//    std::vector<float> bufferData(mesh.verticesSize);
-//    glGetBufferSubData(GL_ARRAY_BUFFER, 0, bufferData.size() * sizeof(float), bufferData.data());
-//
-//// Afficher les données
-//    for (float value : bufferData) {
-//        std::cout << value << " ";
-//    }
-//    std::cout << std::endl;
-//    std::cout << "Indices size: " << mesh.verticesSize << std::endl;
-//
-//    // Lire les données de l'EBO
-//    std::vector<GLuint> indices(mesh.indicesSize);
-//    glGetBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(GLuint), indices.data());
-//
-//// Afficher les données
-//    for (GLuint index : indices) {
-//        std::cout << index << " ";
-//    }
-//    std::cout << std::endl;
-//    std::cout << "Indices size: " << mesh.indicesSize << std::endl;
+    //debug
+    // std::cout << "Projection Matrix: \n" << glm::to_string(projection) << std::endl;
 
     shader.setMatrix4fv("model", glm::value_ptr(model));
     shader.setMatrix4fv("view", glm::value_ptr(view));
@@ -145,13 +124,13 @@ void Renderer::draw() {
     if (mesh->indicesSize > 0) {
         glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
     } else {
-        std::cerr << "Error: mesh.indicesSize is zero or negative!" << std::endl;
+        std::cerr << "Error: indicesSize is zero or negative!" << std::endl;
     }
 
     //test for error
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR) {
-        std::cerr << "OpenGL error: " << err << std::endl;
+        std::cerr << "OpenGL error glDrawElements : " << err << std::endl;
     }
     glBindVertexArray(0);
 }
