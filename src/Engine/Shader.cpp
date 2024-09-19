@@ -91,8 +91,8 @@ void Shader::createProgram() {
 
 Shader::Shader() {
     shaderProgram = 0;
-    vertexShaderSource = readShaderSource("./Resources/Shaders/Vertex.glsl");
-    fragmentShaderSource = readShaderSource("./Resources/Shaders/fragment.glsl");
+    vertexShaderSource = readShaderSource("./Resources/Shaders/VertexTextures.glsl");
+    fragmentShaderSource = readShaderSource("./Resources/Shaders/fragmentTextures.glsl");
     createProgram();
 }
 

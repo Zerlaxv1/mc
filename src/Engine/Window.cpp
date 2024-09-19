@@ -8,8 +8,17 @@
 #include "Window.h"
 #include "../Game/Game.h"
 
-void framebuffer_size_callback([[maybe_unused]] GLFWwindow* _, int width, int height) {
+void framebuffer_size_callback([[maybe_unused]] GLFWwindow* _, int width, int height, Game* game) {
     glViewport(0, 0, width, height);
+    game->setWindowSize(width, height);
+}
+
+void framebuffer_size_callback_glfw([[maybe_unused]] GLFWwindow* window, int width, int height) {
+    // Récupérer le pointeur vers l'instance de Game
+    Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+    if (game) {
+        framebuffer_size_callback(window, width, height, game);
+    }
 }
 
 void mouse_callback(GLFWwindow* _, double xpos, double ypos, Game* game)
@@ -52,14 +61,13 @@ Window::Window() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    //macOS:
+    glfwWindowHint(GLFW_DEPTH_BITS, 24);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    createWindow("super mc clone 3000", 800, 600);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    createWindow("super mc clone 3000", width, height);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback_glfw);
     glfwSetCursorPosCallback(window, mouse_callback_glfw);
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
@@ -68,6 +76,7 @@ Window::Window() {
     }
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//    framebuffer_size_callback_glfw(window, width, height);
 }
 
 Window::~Window() {
@@ -76,8 +85,8 @@ Window::~Window() {
 
 void Window::createWindow(const char *title, int width, int height) {
     window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-    if (window == nullptr) {
-        std::cout << "Failed to create GLFW windowGLFW" << std::endl;
+    if (!window) {
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return;
     }

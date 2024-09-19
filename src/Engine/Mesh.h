@@ -14,7 +14,7 @@ struct Vertex {
     glm::vec2 TexCoords;
 };
 
-std::vector<Vertex> arrayToVertexVector(const float* array, size_t size) {
+inline std::vector<Vertex> arrayToVertexVector(const float* array, size_t size) {
     std::vector<Vertex> vertices;
     for (size_t i = 0; i < size; i += 5) {
         Vertex vertex;
@@ -25,20 +25,25 @@ std::vector<Vertex> arrayToVertexVector(const float* array, size_t size) {
     return vertices;
 }
 
-std::vector<GLuint> arrayToGLuintVector(const GLuint* array, size_t size) {
+inline std::vector<GLuint> arrayToGLuintVector(const GLuint* array, size_t size) {
     return std::vector<GLuint>(array, array + size);
 }
 
 class Mesh {
 public:
-    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
-
-private:
-    std::vector<Vertex> vertices;
-    std::vector<GLuint> indices;
+    Mesh(float *vertices, unsigned int *indices, unsigned int verticesCount, unsigned int indicesCount);
     void setupMesh();
 
+private:
+    float *vertices;
+    unsigned int *indices;
+    unsigned int verticesSize;
+    unsigned int indicesSize;
+    unsigned int verticesCount;
+    unsigned int indicesCount;
     friend class Renderer;
+
+    void printVertices();
 };
 
 

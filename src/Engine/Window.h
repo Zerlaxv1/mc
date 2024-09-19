@@ -20,6 +20,9 @@ public:
     bool shouldClose() const;
     bool GetKey(int key);
     void CloseWindow();
+
+    int width = 800;
+    int height = 600;
 private:
     float lastX = 400, lastY = 300;
     bool firstMouse = true;

@@ -28,9 +28,6 @@ int Game::run() {
         lastFrame = currentFrame;
 
         // Rendering
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
         renderer_tests.render();
 
         // Swap buffers
@@ -65,4 +62,8 @@ void Game::processInput() {
 void Game::processMouseMovement(double xpos, double ypos) {
     // constrainPitch : inverser haut et bas
     renderer_tests.ProcessMouseMovement(xpos, ypos, true);
+}
+
+void Game::setWindowSize(int i, int i1) {
+    renderer_tests.setAspectRatio(i, i1);
 }

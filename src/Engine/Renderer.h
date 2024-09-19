@@ -17,9 +17,10 @@ public:
 
     void init();
     void draw();
-    void setTexture(const char* texturePath);
     void ProcessKeyboard(Camera_Movement movement, float deltaTime);
     void ProcessMouseMovement(double xpos, double ypos, bool cond);
+
+    void setAspectRatio(int i, int i1);
 
 private:
     unsigned int VBO, VAO, EBO;
@@ -27,6 +28,7 @@ private:
     Mesh mesh;
     Camera camera;
     Texture texture;
+    float AspectRatio;
 };
 
 
