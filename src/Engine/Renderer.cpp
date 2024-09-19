@@ -56,7 +56,7 @@ void Renderer::init() {
 
     // setup mesh
     // glBufferData for vertices and indices
-    mesh.setupMesh();
+    mesh->setupMesh();
 
     //test for error
     while ((err = glGetError()) != GL_NO_ERROR) {
@@ -86,8 +86,7 @@ void Renderer::init() {
     glBindVertexArray(0); // Unbind VAO après configuration
 }
 
-Renderer::Renderer(Mesh& mesh, Shader& shader, Camera& camera, Texture& texture ) : mesh(mesh), shader(shader), camera(camera), texture(texture) {
-    init();
+Renderer::Renderer(Mesh* mesh, Shader& shader, Camera& camera, Texture& texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {
 }
 
 Renderer::~Renderer() {
@@ -143,8 +142,8 @@ void Renderer::draw() {
     shader.setMatrix4fv("view", glm::value_ptr(view));
     shader.setMatrix4fv("projection", glm::value_ptr(projection));
 
-    if (mesh.indicesSize > 0) {
-        glDrawElements(GL_TRIANGLES, mesh.indicesCount, GL_UNSIGNED_INT, 0);
+    if (mesh->indicesSize > 0) {
+        glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
     } else {
         std::cerr << "Error: mesh.indicesSize is zero or negative!" << std::endl;
     }
