@@ -12,7 +12,7 @@ Chunk::Chunk() {
     for (int x = 0; x < CHUNK_SIZE; ++x) {
         for (int y = 0; y < CHUNK_SIZE; ++y) {
             for (int z = 0; z < CHUNK_SIZE; ++z) {
-                blocks[x][y][z] = Block(Color(100, 20, 150, 100));
+                blocks[x][y][z] = Block();
             }
         }
     }
@@ -23,7 +23,6 @@ Chunk::~Chunk() = default;
 // Fonction pour activer un voxel
 void Chunk::activateBlock(int x, int y, int z) {
     if (x >= 0 && x < CHUNK_SIZE && y >= 0 && y < CHUNK_SIZE && z >= 0 && z < CHUNK_SIZE) {
-        blocks[x][y][z].isVisible = true;
     }
 }
 
@@ -34,9 +33,9 @@ void Chunk::renderChunk(const Chunk& chunk, GLuint shaderProgram) {
     for (int x = 0; x < Chunk::CHUNK_SIZE; ++x) {
         for (int y = 0; y < Chunk::CHUNK_SIZE; ++y) {
             for (int z = 0; z < Chunk::CHUNK_SIZE; ++z) {
-                if (chunk.blocks[x][y][z].isVisible) {
-                    Block::generateCubeMesh(vertices, indices, x, y, z);
-                }
+                // if (chunk.blocks[x][y][z].isVisible) {
+                //     Block::generateCubeMesh(vertices, indices, x, y, z);
+                // }
             }
         }
     }
