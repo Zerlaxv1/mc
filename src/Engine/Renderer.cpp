@@ -17,9 +17,6 @@ void Renderer::init() {
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_CULL_FACE);
-    // glCullFace(GL_BACK);
-    // glFrontFace(GL_CCW);
 
     VBO = 0;
     VAO = 0;
@@ -109,7 +106,7 @@ void Renderer::draw() {
 
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
-    glm::mat4 projection = glm::perspective(glm::radians(90.0f), AspectRatio, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), AspectRatio, 0.1f, 100.0f);
 
     //debug
     // std::cout << "View Matrix: \n" << glm::to_string(view) << std::endl;
