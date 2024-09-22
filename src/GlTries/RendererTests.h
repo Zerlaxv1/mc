@@ -10,9 +10,20 @@
 class RendererTests {
 public:
     RendererTests();
-    void run();
+    void render();
+    void ProcessKeyboard(Camera_Movement movement, float deltaTime);
+    void ProcessMouseMovement(double xpos, double ypos, bool cond);
+
+    void setAspectRatio(int i, int i1);
+
 private:
+    Mesh mesh;
+    Shader shader;
+    Texture texture;
+    Camera camera;
     Renderer renderer;
+
+    friend class Renderer;
 };
 
 

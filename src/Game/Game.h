@@ -19,6 +19,9 @@ public:
 
     void processInput();
     void processMouseMovement(double xpos, double ypos);
+
+    void setWindowSize(int i, int i1);
+
 private:
     World world;
     WindowGLFW windowGLFW;

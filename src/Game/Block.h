@@ -10,11 +10,7 @@
 
 class Block {
 public:
-    bool isVisible;
-    Color color;
-
-    explicit Block(Color color);
-    Block() : Block(Color(0, 0, 0, 255)) {}
+    explicit Block();
     static void generateCubeMesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float x, float y, float z);
 };
 

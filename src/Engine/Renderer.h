@@ -4,26 +4,31 @@
 
 #ifndef RENDERER_H
 #define RENDERER_H
-#include "Shader.h"
 
+#include "Shader.h"
+#include "Camera.h"
+#include "Mesh.h"
+#include "Texture.h"
 
 class Renderer {
 public:
-    void init();
-
-    Renderer();
-    Renderer(float verticesArg[], int size , unsigned int indicesArg[], int size2);
+    Renderer(Mesh* mesh, Shader& shader, Camera& camera, Texture& texture);
     ~Renderer();
 
+    void init();
     void draw();
-    void copyVerticesData(float vertices[], int size);
-    void copyIndicesData(unsigned int indices[], int size);
+    void ProcessKeyboard(Camera_Movement movement, float deltaTime);
+    void ProcessMouseMovement(double xpos, double ypos, bool cond);
 
-    float vertices;
-    unsigned int indices;
+    void setAspectRatio(int i, int i1);
+
 private:
     unsigned int VBO, VAO, EBO;
     Shader shader;
+    Mesh* mesh;
+    Camera camera;
+    Texture texture;
+    float AspectRatio;
 };
 
 

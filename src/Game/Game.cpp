@@ -23,10 +23,11 @@ int Game::run() {
         // Input
         processInput();
 
-        // Rendering
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
 
+        // Rendering
         renderer_tests.render();
 
         // Swap buffers
@@ -45,20 +46,24 @@ void Game::processInput() {
     if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
         windowGLFW.CloseWindow();
     if(windowGLFW.GetKey(GLFW_KEY_W))
-        renderer_tests.cameraMovement(FORWARD);
+        renderer_tests.ProcessKeyboard(FORWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_S))
-        renderer_tests.cameraMovement(BACKWARD);
+        renderer_tests.ProcessKeyboard(BACKWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_A))
-        renderer_tests.cameraMovement(LEFT);
+        renderer_tests.ProcessKeyboard(LEFT, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_D))
-        renderer_tests.cameraMovement(RIGHT);
+        renderer_tests.ProcessKeyboard(RIGHT, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_SPACE))
-        renderer_tests.cameraMovement(UP);
+        renderer_tests.ProcessKeyboard(UP, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
-        renderer_tests.cameraMovement(DOWN);
+        renderer_tests.ProcessKeyboard(DOWN , deltaTime);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
     // constrainPitch : inverser haut et bas
     renderer_tests.ProcessMouseMovement(xpos, ypos, true);
+}
+
+void Game::setWindowSize(int i, int i1) {
+    renderer_tests.setAspectRatio(i, i1);
 }
