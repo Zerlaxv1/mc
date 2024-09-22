@@ -7,15 +7,19 @@
 
 #include <GL/glew.h>
 #include <string>
+#include <bits/stl_vector.h>
 
 class Texture {
 public:
+
     explicit Texture(const char* imagePath);
     void bind();
 
 private:
     GLuint textureID;
-    void loadTexture(const char* imagePath);
+    unsigned char *loadTexture(const char *path, int *width, int *height, int *nrChannels);
+    void createTexture(const char* imagePath);
+    GLuint createTextureArray(const std::vector<std::string> &texturePaths);
 };
 
 
