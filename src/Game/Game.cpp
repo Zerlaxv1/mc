@@ -16,9 +16,6 @@ Game::Game() {
 }
 
 int Game::run() {
-    // Gestion des messages de la fenêtre
-    // running = Window::processMessages();
-
     while (!windowGLFW.shouldClose()) {
         // Input
         processInput();

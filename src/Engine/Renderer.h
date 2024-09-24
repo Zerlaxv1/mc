@@ -12,7 +12,7 @@
 
 class Renderer {
 public:
-    Renderer(Mesh* mesh, Shader& shader, Camera& camera, Texture& texture);
+    Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture);
     ~Renderer();
 
     void init();
@@ -24,10 +24,10 @@ public:
 
 private:
     unsigned int VBO, VAO, EBO;
-    Shader shader;
+    Shader* shader;
     Mesh* mesh;
-    Camera camera;
-    Texture texture;
+    Camera* camera;
+    Texture* texture;
     float AspectRatio;
 };
 

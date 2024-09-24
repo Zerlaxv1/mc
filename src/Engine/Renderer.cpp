@@ -64,13 +64,17 @@ void Renderer::init() {
         std::cerr << "OpenGL error: " << err << std::endl;
     }
 
-    // positions ( location = 0 ), 3 floats, not normalized, stride = 5 *, offset = 0
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), static_cast<void *>(nullptr));
+    // positions ( location = 0 ), 3 floats, not normalized, stride = 6 *, offset = 0
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), static_cast<void *>(nullptr));
     glEnableVertexAttribArray(0);
 
-    // texture ( location = 1 ), 2 floats, not normalized, stride = 5 *, offset = 3
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
+    // texture ( location = 1 ), 2 floats, not normalized, stride = 6 *, offset = 3
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    // texture ( location = 2 ), 1 int, not normalized, stride = 6 *, offset = 5
+    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void *>(5 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     //test for error
     while ((err = glGetError()) != GL_NO_ERROR) {
@@ -87,7 +91,7 @@ void Renderer::init() {
     glBindVertexArray(0); // Unbind VAO après configuration
 }
 
-Renderer::Renderer(Mesh* mesh, Shader& shader, Camera& camera, Texture& texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {
+Renderer::Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {
 }
 
 Renderer::~Renderer() {
@@ -98,14 +102,17 @@ Renderer::~Renderer() {
 
 void Renderer::draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    shader.use();
+    shader->use();
     glBindVertexArray(VAO);
+    glActiveTexture(GL_TEXTURE0);
+    texture->bind();
+    shader->setInt("TextureArray", 0); // Passer l'unité de texture au shader (0 car on a activé GL_TEXTURE0)
 
     //model matrix
     glm::mat4 model = glm::mat4(1.0f);
 
     ///view matrix
-    glm::mat4 view = camera.GetViewMatrix();
+    glm::mat4 view = camera->GetViewMatrix();
 
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
@@ -117,9 +124,9 @@ void Renderer::draw() {
     //debug
     // std::cout << "Projection Matrix: \n" << glm::to_string(projection) << std::endl;
 
-    shader.setMatrix4fv("model", glm::value_ptr(model));
-    shader.setMatrix4fv("view", glm::value_ptr(view));
-    shader.setMatrix4fv("projection", glm::value_ptr(projection));
+    shader->setMatrix4fv("model", glm::value_ptr(model));
+    shader->setMatrix4fv("view", glm::value_ptr(view));
+    shader->setMatrix4fv("projection", glm::value_ptr(projection));
 
     if (mesh->indicesSize > 0) {
         glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
@@ -136,11 +143,11 @@ void Renderer::draw() {
 }
 
 void Renderer::ProcessKeyboard(Camera_Movement movement, float deltatime) {
-    camera.ProcessKeyboard(movement, deltatime);
+    camera->ProcessKeyboard(movement, deltatime);
 }
 
 void Renderer::ProcessMouseMovement(double xpos, double ypos, bool cond) {
-    camera.ProcessMouseMovement(xpos, ypos, cond);
+    camera->ProcessMouseMovement(xpos, ypos, cond);
 }
 
 void Renderer::setAspectRatio(int width, int height) {

@@ -9,8 +9,7 @@
 #include "../tools/stb_image.h"
 
 // Chargement d'une texture depuis un fichier
-unsigned char* Texture::loadTexture(const char* path, int* width, int* height, int* nrChannels = 0) {
-    stbi_set_flip_vertically_on_load(true);
+unsigned char* Texture::loadTexture(const char* path, int* width, int* height, int* nrChannels) {
     unsigned char* data = stbi_load(path, width, height, nrChannels, 0);
     if (!data) {
         std::cerr << "Failed to load texture at: " << path << std::endl;
@@ -19,18 +18,21 @@ unsigned char* Texture::loadTexture(const char* path, int* width, int* height, i
     return data;
 }
 
-Texture::Texture(const char* imagePath) {
-    //inutile vu qu'on a qu'une seule texture mais bon
+Texture::Texture() {
+    stbi_set_flip_vertically_on_load(true);
+
+    // Créer la texture array 2D dans OpenGL
+    glGenTextures(1, &textureArray);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, textureArray);
     glActiveTexture(GL_TEXTURE0);
-    createTexture(imagePath);
 }
 
 void Texture::bind() {
-    glBindTexture(GL_TEXTURE_2D, textureID);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, textureArray);
 }
 
 void Texture::createTexture(const char* imagePath) {
-    glGenTextures(1, &textureID);
+    glGenTextures(1, &textureArray);
     bind();
 
     //test for error
@@ -75,12 +77,12 @@ void Texture::createTexture(const char* imagePath) {
 
 // Créer une texture 2D array et charger toutes les textures dans des fichiers séparés
 GLuint Texture::createTextureArray(const std::vector<std::string>& texturePaths) {
-    int width, height;
+    int width, height, nrChannels;
     std::vector<unsigned char*> textureData;
 
     // Charger toutes les textures dans la mémoire
-    for (const std::string& path : texturePaths) {
-        unsigned char* data = loadTexture(path.c_str(), &width, &height);
+    for (const std::string path : texturePaths) {
+        unsigned char* data = loadTexture(path.c_str(), &width, &height, &nrChannels);
         if (data != nullptr) {
             textureData.push_back(data);
         } else {
@@ -88,17 +90,18 @@ GLuint Texture::createTextureArray(const std::vector<std::string>& texturePaths)
         }
     }
 
-    // Créer la texture array 2D dans OpenGL
-    GLuint textureArray;
-    glGenTextures(1, &textureArray);
-    glBindTexture(GL_TEXTURE_2D_ARRAY, textureArray);
-
     // Créer la texture avec toutes les couches
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, width, height, textureData.size(), 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-
+    if (nrChannels == 3) {
+        glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGB8, width, height, textureData.size(), 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    } else if (nrChannels == 4) {
+        glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, width, height, textureData.size(), 0, GL_RGBA, GL_UNSIGNED_BYTE,nullptr);
+    }
     // Charger chaque texture dans une couche de la texture array
     for (size_t i = 0; i < textureData.size(); ++i) {
-        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, i, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, textureData[i]);
+        if (nrChannels == 3)
+            glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, i, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE,textureData[i]);
+        else if (nrChannels == 4)
+            glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, i, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE,textureData[i]);
         stbi_image_free(textureData[i]);  // Libérer la mémoire une fois chargée
     }
 
