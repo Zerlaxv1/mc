@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 # Nom du projet
-project(opengl_tests)
+project(mc)
 
 # Définir le standard C++
 set(CMAKE_CXX_STANDARD 17)
@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
         src/main.cpp
         src/Engine/Shader.cpp
-        src/Game/Block.cpp
-        src/Game/Block.h
+        src/Game/Blocks/BlockOld.cpp
+        src/Game/Blocks/BlockOld.h
         src/Game/Chunk.cpp
         src/Game/Chunk.h
         src/Game/World.cpp
@@ -36,36 +36,42 @@ set(SOURCES
         src/Engine/Texture.h
         src/Engine/Mesh.cpp
         src/Engine/Mesh.h
+        src/Game/Blocks/Blocks.cpp
+        src/Game/Blocks/Blocks.h
+        src/Game/Blocks/Block.cpp
+        src/Game/Blocks/Block.h
+        src/Game/Blocks/Textures.cpp
+        src/Game/Blocks/Textures.h
 )
 
 # Créer l'exécutable
-add_executable(opengl_tests ${SOURCES})
+add_executable(mc ${SOURCES})
 
 #OpenGL and link
 find_package(OpenGL REQUIRED)
-target_link_libraries(opengl_tests PRIVATE ${OPENGL_LIBRARIES})
+target_link_libraries(mc PRIVATE ${OPENGL_LIBRARIES})
 
 # Find and link GLEW
 find_package(GLEW REQUIRED)
-target_link_libraries(opengl_tests PRIVATE GLEW::GLEW)
+target_link_libraries(mc PRIVATE GLEW::GLEW)
 
 # Find and link GLFW
 find_package(glfw3 REQUIRED)
-target_link_libraries(opengl_tests PRIVATE glfw)
+target_link_libraries(mc PRIVATE glfw)
 
 ## Find and link GLAD
 #find_package(GLAD REQUIRED)
-#target_link_libraries(opengl_tests PRIVATE glad)
+#target_link_libraries(mc PRIVATE glad)
 
 # Inclure les répertoires d'en-têtes trouvés
 #include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 # Include directories
-target_include_directories(opengl_tests PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS})
+target_include_directories(mc PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS})
 
 #plus besoin
 # Lier les bibliothèques nécessaires
-#target_link_libraries(opengl_tests ${OPENGL_LIBRARIES} GLEW::GLEW GLFW3::GLFW3 opengl32 user32 gdi32)
+#target_link_libraries(mc ${OPENGL_LIBRARIES} GLEW::GLEW GLFW3::GLFW3 opengl32 user32 gdi32)
 
 if (DEBUG_LEVEL)
     add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
@@ -77,6 +83,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 # Copier les shaders
-add_custom_command(TARGET opengl_tests POST_BUILD
+add_custom_command(TARGET mc POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/Resources $<TARGET_FILE_DIR:opengl_tests>/Resources)
+        ${CMAKE_SOURCE_DIR}/Resources $<TARGET_FILE_DIR:mc>/Resources)

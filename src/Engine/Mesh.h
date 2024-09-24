@@ -2,8 +2,8 @@
 // Created by ninod on 18/09/2024.
 //
 
-#ifndef OPENGL_TESTS_MESH_H
-#define OPENGL_TESTS_MESH_H
+#ifndef MC_MESH_H
+#define MC_MESH_H
 
 #include <vector>
 #include <GL/glew.h>
@@ -49,4 +49,4 @@ private:
 };
 
 
-#endif //OPENGL_TESTS_MESH_H
+#endif //MC_MESH_H

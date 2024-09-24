@@ -2,8 +2,8 @@
 // Created by ninod on 18/09/2024.
 //
 
-#ifndef OPENGL_TESTS_TEXTURE_H
-#define OPENGL_TESTS_TEXTURE_H
+#ifndef MC_TEXTURE_H
+#define MC_TEXTURE_H
 
 #include <GL/glew.h>
 #include <string>
@@ -22,4 +22,4 @@ private:
 };
 
 
-#endif //OPENGL_TESTS_TEXTURE_H
+#endif //MC_TEXTURE_H

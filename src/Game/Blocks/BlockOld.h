@@ -6,11 +6,11 @@
 #define BLOCK_H
 #include <vector>
 #include <GL/glew.h>
-#include "../tools/Color.h"
+#include "../../tools/Color.h"
 
-class Block {
+class BlockOld {
 public:
-    explicit Block();
+    explicit BlockOld();
     static void generateCubeMesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float x, float y, float z);
 };
 

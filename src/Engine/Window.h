@@ -2,8 +2,8 @@
 // Created by ninod on 16/09/2024.
 //
 
-#ifndef OPENGL_TESTS_WINDOW_H
-#define OPENGL_TESTS_WINDOW_H
+#ifndef MC_WINDOW_H
+#define MC_WINDOW_H
 
 #include <GLFW/glfw3.h>
 
@@ -29,4 +29,4 @@ private:
 };
 
 
-#endif //OPENGL_TESTS_WINDOW_H
+#endif //MC_WINDOW_H

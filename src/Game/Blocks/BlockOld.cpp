@@ -2,14 +2,14 @@
 // Created by Nino on 11/08/2024.
 //
 
-#include "Block.h"
+#include "BlockOld.h"
 #include <vector>
 #include <GL/glew.h>
 
-Block::Block() {
+BlockOld::BlockOld() {
 }
 
-void Block::generateCubeMesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float x, float y, float z) {
+void BlockOld::generateCubeMesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float x, float y, float z) {
     // Front face
     vertices.insert(vertices.end(), {
             x - 0.5f, y - 0.5f, z - 0.5f, 0.0f, 0.0f,  // 0

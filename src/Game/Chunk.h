@@ -4,13 +4,13 @@
 
 #ifndef CHUNK_H
 #define CHUNK_H
-#include "Block.h"
+#include "Blocks/BlockOld.h"
 
 
 class Chunk {
 public:
     static const int CHUNK_SIZE = 16;
-    Block blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+    BlockOld blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
     Chunk();
     ~Chunk();
