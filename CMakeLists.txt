@@ -11,8 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
         src/main.cpp
         src/Engine/Shader.cpp
-        src/Game/Blocks/BlockOld.cpp
-        src/Game/Blocks/BlockOld.h
         src/Game/Chunk.cpp
         src/Game/Chunk.h
         src/Game/World.cpp
@@ -25,8 +23,6 @@ set(SOURCES
         src/Game/Game.h
         src/Engine/Renderer.cpp
         src/Engine/Renderer.h
-        src/GlTries/RendererTests.cpp
-        src/GlTries/RendererTests.h
         src/tools/idk.cpp
         src/Engine/Window.cpp
         src/Engine/Window.h

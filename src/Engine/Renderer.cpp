@@ -55,7 +55,7 @@ void Renderer::init() {
         std::cerr << "OpenGL error, Binding Buffers :" << err << std::endl;
     }
 
-    // setup mesh
+    // setup combinedMesh
     // glBufferData for vertices and indices
     mesh->setupMesh();
 

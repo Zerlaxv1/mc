@@ -32,9 +32,13 @@ inline std::vector<GLuint> arrayToGLuintVector(const GLuint* array, size_t size)
 class Mesh {
 public:
     Mesh();
+    Mesh(float *vertices, unsigned int *indices, unsigned int verticesCount, unsigned int indicesCount);
 
     void setVariables(float *vertices, unsigned int *indices, unsigned int verticesCount, unsigned int indicesCount);
     void setupMesh();
+
+    float* getVertices();
+    unsigned int* getIndices();
 
 private:
     float *vertices;

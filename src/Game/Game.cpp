@@ -8,8 +8,6 @@
 #include "World.h"
 
 Game::Game() {
-    // Créer une instance de World
-    world = World();
     world.generateFlatWorld();
 
     glfwSetWindowUserPointer(windowGLFW.window, this);
@@ -25,7 +23,7 @@ int Game::run() {
         lastFrame = currentFrame;
 
         // Rendering
-        renderer_tests.render();
+        world.render();
 
         // Swap buffers
         glfwSwapBuffers(windowGLFW.window);
@@ -43,24 +41,24 @@ void Game::processInput() {
     if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
         windowGLFW.CloseWindow();
     if(windowGLFW.GetKey(GLFW_KEY_W))
-        renderer_tests.ProcessKeyboard(FORWARD, deltaTime);
+        world.ProcessKeyboard(FORWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_S))
-        renderer_tests.ProcessKeyboard(BACKWARD, deltaTime);
+        world.ProcessKeyboard(BACKWARD, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_A))
-        renderer_tests.ProcessKeyboard(LEFT, deltaTime);
+        world.ProcessKeyboard(LEFT, deltaTime);
     if(windowGLFW.GetKey(GLFW_KEY_D))
-        renderer_tests.ProcessKeyboard(RIGHT, deltaTime);
+        world.ProcessKeyboard(RIGHT, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_SPACE))
-        renderer_tests.ProcessKeyboard(UP, deltaTime);
+        world.ProcessKeyboard(UP, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
-        renderer_tests.ProcessKeyboard(DOWN , deltaTime);
+        world.ProcessKeyboard(DOWN , deltaTime);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
     // constrainPitch : inverser haut et bas
-    renderer_tests.ProcessMouseMovement(xpos, ypos, true);
+    world.ProcessMouseMovement(xpos, ypos, true);
 }
 
 void Game::setWindowSize(int i, int i1) {
-    renderer_tests.setAspectRatio(i, i1);
+    world.setAspectRatio(i, i1);
 }
