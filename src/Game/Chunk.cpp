@@ -10,20 +10,14 @@ Chunk::Chunk() {
     for (int x = 0; x < CHUNK_WIDTH; ++x) {
         for (int y = 0; y < CHUNK_HEIGHT; ++y) {
             for (int z = 0; z < CHUNK_DEPTH; ++z) {
-                blocks[x][y][z] = nullptr; // Air ou bloc vide
+                blocks[x][y][z] = BlockID::AIR; // Air ou bloc vide
             }
         }
     }
 }
 
 Chunk::~Chunk() {
-    for (int x = 0; x < CHUNK_WIDTH; ++x) {
-        for (int y = 0; y < CHUNK_HEIGHT; ++y) {
-            for (int z = 0; z < CHUNK_DEPTH; ++z) {
-                delete blocks[x][y][z];
-            }
-        }
-    }
+
 }
 
 // Fonction pour activer un voxel
@@ -31,13 +25,13 @@ void Chunk::activateBlock(int x, int y, int z) {
     //TODO: Implement
 }
 
-Block* Chunk::getBlock(int x, int y, int z) {
+BlockID Chunk::getBlock(int x, int y, int z) {
     if (x < 0 || x >= Chunk::CHUNK_WIDTH || y < 0 || y >= Chunk::CHUNK_HEIGHT || z < 0 || z >= Chunk::CHUNK_DEPTH)
-        return nullptr; // Hors du chunk
+        return BlockID::AIR; // Hors du chunk
     return blocks[x][y][z];
 }
 
-void Chunk::setBlock(int x, int y, int z, Block* block) {
+void Chunk::setBlock(int x, int y, int z, BlockID block) {
     if (x >= 0 && x < Chunk::CHUNK_WIDTH && y >= 0 && y < Chunk::CHUNK_HEIGHT && z >= 0 && z < Chunk::CHUNK_DEPTH) {
         blocks[x][y][z] = block;
     }
@@ -51,12 +45,12 @@ void Chunk::generateFlatChunk(int i, int i1, int i2) {
 
     // Create a line along the x-axis at the center
     for (int x = 0; x < CHUNK_WIDTH; ++x) {
-        blocks[x][centerY][centerZ] = new Block(Blocks::getBlock(BlockID::GRASS));
+        blocks[x][centerY][centerZ] = BlockID::GRASS;
     }
 
     // Create a line along the z-axis at the center
     for (int z = 0; z < CHUNK_DEPTH; ++z) {
-        blocks[centerX][centerY][z] = new Block(Blocks::getBlock(BlockID::STONE));
+        blocks[centerX][centerY][z] = BlockID::STONE;
     }
 }
 
@@ -67,8 +61,11 @@ Mesh *Chunk::getChunkMesh() {
     for (int x = 0; x < Chunk::CHUNK_WIDTH; ++x) {
         for (int y = 0; y < Chunk::CHUNK_HEIGHT; ++y) {
             for (int z = 0; z < Chunk::CHUNK_DEPTH; ++z) {
-                if (blocks[x][y][z] != nullptr) {
-                    vertices.push_back(blocks[x][y][z]->mesh.getVertices()[0]);
+                if (blocks[x][y][z] != BlockID::AIR) {
+                    vertices.push_back(
+                        //blocks[x][y][z]mesh.getVertices()[0]
+                        Blocks::getBlock(blocks[x][y][z]).mesh.getVertices()[0] + x);
+                        );
                 }
             }
         }
