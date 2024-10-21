@@ -12,6 +12,7 @@
 //    return chunks[pos];
 //}
 
+// return the chunk at the given position
 Chunk* World::getChunk(int x, int y, int z) {
     auto it = chunks.find(std::make_tuple(x, y, z));
     if (it != chunks.end()) {
@@ -20,6 +21,7 @@ Chunk* World::getChunk(int x, int y, int z) {
     return nullptr; // Chunk non trouvé (hors du monde chargé)
 }
 
+// activate the block at the given position in the given chunk
 void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ) {
     Chunk* chunk = getChunk(chunkX, chunkY, chunkZ);
     chunk->activateBlock(voxelX, voxelY, voxelZ);
@@ -31,6 +33,7 @@ void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int vo
     // }
 // }
 
+// call the generateFlatChunk function for each chunk in the world
 void World::generateFlatWorld() {
     for (int x = -1; x <= 1; x++) {
         for (int y = -1; y <= 1; y++) {
@@ -42,44 +45,38 @@ void World::generateFlatWorld() {
     }
 }
 
+// render world
 void World::render() {
     renderer.draw();
 }
 
+// process keyboard input
 void World::ProcessKeyboard(Camera_Movement movement, float deltatime) {
     renderer.ProcessKeyboard(movement, deltatime);
 }
 
+// process mouse input
 void World::ProcessMouseMovement(double xpos, double ypos, bool cond) {
     renderer.ProcessMouseMovement(xpos, ypos, cond);
 }
 
+// set the window size
 void World::setAspectRatio(int i, int i1) {
     renderer.setAspectRatio(i, i1);
 }
 
+// combine all the chunk meshes into one mesh (to reduce draw calls)
 void World::combineChunkMeshes() {
-    std::vector<float> combinedVertices;
-    std::vector<unsigned int> combinedIndices;
-    unsigned int indexOffset = 0;
+    std::vector<Mesh> chunkMeshes;
 
-    for (const auto& [pos, chunk] : chunks) {
-        Mesh* chunkMesh = chunk.getChunkMesh();
-        const auto& vertices = chunkMesh->getVertices();
-        const auto& indices = chunkMesh->getIndices();
-
-        combinedVertices.insert(combinedVertices.end(), vertices.begin(), vertices.end());
-
-        for (unsigned int index : indices) {
-            combinedIndices.push_back(index + indexOffset);
-        }
-
-        indexOffset += vertices.size() / 6; // Assuming each vertex has 6 attributes (3 for position, 2 for texture, 1 for texture index)
+    for (auto& [pos, chunk] : chunks) {
+        chunkMeshes.push_back(*chunk.getChunkMesh());
     }
 
-    combinedMesh.setVariables(combinedVertices.data(), combinedIndices.data(), combinedVertices.size(), combinedIndices.size());
+    combinedMesh = Mesh::CombineMeshs(chunkMeshes);
 }
 
+// constructor
 World::World() :
 shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
 camera(glm::vec3(0.0f, 0.0f, 3.0f)),

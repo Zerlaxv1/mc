@@ -51,3 +51,25 @@ float* Mesh::getVertices() {
 unsigned int*Mesh::getIndices() {
     return this->indices;
 }
+
+Mesh Mesh::CombineMeshs(std::vector<Mesh> meshes) {
+    std::vector<float> combinedVertices;
+    std::vector<unsigned int> combinedIndices;
+
+    unsigned int indexOffset = 0;
+
+    for (auto& mesh : meshes) {
+        const auto& vertices = mesh.getVertices();
+        const auto& indices = mesh.getIndices();
+
+        combinedVertices.insert(combinedVertices.end(), vertices, vertices + mesh.verticesCount);
+
+        for (unsigned int i = 0; i < mesh.indicesCount; ++i) {
+            combinedIndices.push_back(indices[i] + indexOffset);
+        }
+
+        indexOffset += mesh.verticesCount / 6; // Assuming each vertex has 6 attributes (3 for position, 2 for texture, 1 for texture index)
+    }
+
+    return Mesh(combinedVertices.data(), combinedIndices.data(), combinedVertices.size(), combinedIndices.size());
+}

@@ -40,6 +40,8 @@ public:
     float* getVertices();
     unsigned int* getIndices();
 
+    static Mesh CombineMeshs(std::vector<Mesh> meshes);
+
 private:
     float *vertices;
     unsigned int *indices;

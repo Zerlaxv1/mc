@@ -13,6 +13,7 @@
 
 class World {
 public:
+    // map, id is a tuple of 3 integers (x, y, z), value is a Chunk
     std::map<std::tuple<int, int, int>, Chunk> chunks;
 
     World();

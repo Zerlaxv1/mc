@@ -6,6 +6,7 @@
 #include "Blocks/BlockOld.h"
 #include "Blocks/Blocks.h"
 
+// generate a chunk with all blocks set to air
 Chunk::Chunk() {
     for (int x = 0; x < CHUNK_WIDTH; ++x) {
         for (int y = 0; y < CHUNK_HEIGHT; ++y) {
@@ -16,6 +17,7 @@ Chunk::Chunk() {
     }
 }
 
+// Destructor
 Chunk::~Chunk() {
 
 }
@@ -25,19 +27,21 @@ void Chunk::activateBlock(int x, int y, int z) {
     //TODO: Implement
 }
 
+// return the block at the given position
 BlockID Chunk::getBlock(int x, int y, int z) {
     if (x < 0 || x >= Chunk::CHUNK_WIDTH || y < 0 || y >= Chunk::CHUNK_HEIGHT || z < 0 || z >= Chunk::CHUNK_DEPTH)
         return BlockID::AIR; // Hors du chunk
     return blocks[x][y][z];
 }
 
+// set the block at the given position
 void Chunk::setBlock(int x, int y, int z, BlockID block) {
     if (x >= 0 && x < Chunk::CHUNK_WIDTH && y >= 0 && y < Chunk::CHUNK_HEIGHT && z >= 0 && z < Chunk::CHUNK_DEPTH) {
         blocks[x][y][z] = block;
     }
 }
 
-//not a flat chunk but a cross in x and z
+//generate a chunk with Grass and Stone in the center in cross on the x and z axis
 void Chunk::generateFlatChunk(int i, int i1, int i2) {
     int centerX = CHUNK_WIDTH / 2;
     int centerY = CHUNK_HEIGHT / 2;
@@ -54,6 +58,7 @@ void Chunk::generateFlatChunk(int i, int i1, int i2) {
     }
 }
 
+// return the mesh of the chunk
 Mesh *Chunk::getChunkMesh() {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
@@ -64,14 +69,14 @@ Mesh *Chunk::getChunkMesh() {
                 if (blocks[x][y][z] != BlockID::AIR) {
                     vertices.push_back(
                         //blocks[x][y][z]mesh.getVertices()[0]
-                        Blocks::getBlock(blocks[x][y][z]).mesh.getVertices()[0] + x);
+                        Blocks::getBlock(blocks[x][y][z]).mesh.getVertices()[0] + x
                         );
                 }
             }
         }
     }
 
-    return new Mesh(vertices, indices, vertices.size(), indices.size());
+    return new Mesh(vertices.data(), indices.data(), vertices.size(), indices.size());
 }
 
 // TODO: Delete ?
