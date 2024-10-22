@@ -70,7 +70,7 @@ Block::Block(int id, const std::string &name, const int *textureIDs, bool solid)
             20, 21, 22,
             22, 23, 20
     };
-    mesh.setVariables(vertices.data(), indices.data(), vertices.size(), indices.size());
+    mesh.setVariables(vertices, indices);
     std::copy(textureIDs, textureIDs + 6, this->textureIDs);
 }
 

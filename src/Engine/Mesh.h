@@ -32,23 +32,29 @@ inline std::vector<GLuint> arrayToGLuintVector(const GLuint* array, size_t size)
 class Mesh {
 public:
     Mesh();
-    Mesh(float *vertices, unsigned int *indices, unsigned int verticesCount, unsigned int indicesCount);
+    Mesh(const std::vector<GLfloat>& vertices, const std::vector<GLuint>& indices)
+            : vertices(vertices), indices(indices) {}
 
-    void setVariables(float *vertices, unsigned int *indices, unsigned int verticesCount, unsigned int indicesCount);
+    void setVariables(const std::vector<GLfloat>& vertices, const std::vector<GLuint>& indices) {
+        this->vertices = vertices;
+        this->indices = indices;
+    }
+
     void setupMesh();
 
-    float* getVertices();
-    unsigned int* getIndices();
+    const std::vector<GLfloat>& getVertices() const {
+        return vertices;
+    }
+
+    const std::vector<GLuint>& getIndices() const {
+        return indices;
+    }
 
     static Mesh CombineMeshs(std::vector<Mesh> meshes);
 
 private:
-    float *vertices;
-    unsigned int *indices;
-    unsigned int verticesSize;
-    unsigned int indicesSize;
-    unsigned int verticesCount;
-    unsigned int indicesCount;
+    std::vector<GLfloat> vertices;
+    std::vector<GLuint> indices;
     friend class Renderer;
 
     void printVertices();

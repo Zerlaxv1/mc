@@ -8,7 +8,7 @@
 #include "World.h"
 
 Game::Game() {
-    world.generateFlatWorld();
+//    world.generateFlatWorld();
 
     glfwSetWindowUserPointer(windowGLFW.window, this);
 }

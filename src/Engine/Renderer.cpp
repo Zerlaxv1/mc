@@ -128,8 +128,8 @@ void Renderer::draw() {
     shader->setMatrix4fv("view", glm::value_ptr(view));
     shader->setMatrix4fv("projection", glm::value_ptr(projection));
 
-    if (mesh->indicesSize > 0) {
-        glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
+    if (mesh->getIndices().size() > 0) {
+        glDrawElements(GL_TRIANGLES, mesh->getIndices().size(), GL_UNSIGNED_INT, 0);
     } else {
         std::cerr << "Error: indicesSize is zero or negative!" << std::endl;
     }

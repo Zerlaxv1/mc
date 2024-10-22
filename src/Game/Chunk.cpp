@@ -58,25 +58,41 @@ void Chunk::generateFlatChunk(int i, int i1, int i2) {
     }
 }
 
-// return the mesh of the chunk
 Mesh *Chunk::getChunkMesh() {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
+    GLuint indexOffset = 0;
 
     for (int x = 0; x < Chunk::CHUNK_WIDTH; ++x) {
         for (int y = 0; y < Chunk::CHUNK_HEIGHT; ++y) {
             for (int z = 0; z < Chunk::CHUNK_DEPTH; ++z) {
                 if (blocks[x][y][z] != BlockID::AIR) {
-                    vertices.push_back(
-                        //blocks[x][y][z]mesh.getVertices()[0]
-                        Blocks::getBlock(blocks[x][y][z]).mesh.getVertices()[0] + x
-                        );
+                    const Block& block = Blocks::getBlock(blocks[x][y][z]);
+                    const std::vector<GLfloat>& blockVertices = block.mesh.getVertices();
+                    const std::vector<GLuint>& blockIndices = block.mesh.getIndices();
+
+                    // Add vertices for the block
+                    for (size_t i = 0; i < blockVertices.size(); i += 6) {
+                        vertices.push_back(blockVertices[i] + x);
+                        vertices.push_back(blockVertices[i + 1] + y);
+                        vertices.push_back(blockVertices[i + 2] + z);
+                        vertices.push_back(blockVertices[i + 3]);
+                        vertices.push_back(blockVertices[i + 4]);
+                        vertices.push_back(blockVertices[i + 5]);
+                    }
+
+                    // Add indices for the block
+                    for (GLuint index : blockIndices) {
+                        indices.push_back(index + indexOffset);
+                    }
+
+                    indexOffset += static_cast<GLuint>(blockVertices.size() / 6);
                 }
             }
         }
     }
 
-    return new Mesh(vertices.data(), indices.data(), vertices.size(), indices.size());
+    return new Mesh(vertices, indices);
 }
 
 // TODO: Delete ?

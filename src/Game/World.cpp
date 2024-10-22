@@ -70,7 +70,10 @@ void World::combineChunkMeshes() {
     std::vector<Mesh> chunkMeshes;
 
     for (auto& [pos, chunk] : chunks) {
-        chunkMeshes.push_back(*chunk.getChunkMesh());
+        Mesh* mesh = chunk.getChunkMesh();
+        if (mesh != nullptr) {
+            chunkMeshes.push_back(*mesh);
+        }
     }
 
     combinedMesh = Mesh::CombineMeshs(chunkMeshes);
@@ -82,6 +85,7 @@ shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentT
 camera(glm::vec3(0.0f, 0.0f, 3.0f)),
 renderer(&combinedMesh, &shader, &camera, &texture)
 {
+    generateFlatWorld();
     combineChunkMeshes();
     renderer.setAspectRatio(800, 600);
     renderer.init();
