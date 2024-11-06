@@ -30,7 +30,7 @@ void Mesh::setupMesh() {
     }
 }
 
-Mesh Mesh::CombineMeshs(std::vector<Mesh> meshes) {
+Mesh Mesh::CombineMeshes(std::vector<Mesh> meshes) {
     std::vector<float> combinedVertices;
     std::vector<unsigned int> combinedIndices;
 

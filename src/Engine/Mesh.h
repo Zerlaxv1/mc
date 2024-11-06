@@ -50,7 +50,7 @@ public:
         return indices;
     }
 
-    static Mesh CombineMeshs(std::vector<Mesh> meshes);
+    static Mesh CombineMeshes(std::vector<Mesh> meshes);
 
 private:
     std::vector<GLfloat> vertices;

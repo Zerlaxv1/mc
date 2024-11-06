@@ -4,14 +4,6 @@
 
 #include "World.h"
 
-//Chunk& World::getChunk(int x, int y, int z) {
-//    std::tuple<int, int, int> pos = std::make_tuple(x, y, z);
-//    if (chunks.find(pos) == chunks.end()) {
-//        chunks[pos] = Chunk();
-//    }
-//    return chunks[pos];
-//}
-
 // return the chunk at the given position
 Chunk* World::getChunk(int x, int y, int z) {
     auto it = chunks.find(std::make_tuple(x, y, z));
@@ -27,11 +19,6 @@ void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int vo
     chunk->activateBlock(voxelX, voxelY, voxelZ);
 }
 
-// void World::renderWorld(const World& world, GLuint shaderProgram) {
-    // for (const auto& [pos, chunk] : world.chunks) {
-    //     Chunk::renderChunk(chunk, shaderProgram);
-    // }
-// }
 
 // call the generateFlatChunk function for each chunk in the world
 void World::generateFlatWorld() {
@@ -67,6 +54,7 @@ void World::setAspectRatio(int i, int i1) {
 
 // combine all the chunk meshes into one mesh (to reduce draw calls)
 void World::combineChunkMeshes() {
+    // array of all the meshes
     std::vector<Mesh> chunkMeshes;
 
     for (auto& [pos, chunk] : chunks) {
@@ -75,16 +63,25 @@ void World::combineChunkMeshes() {
             chunkMeshes.push_back(*mesh);
         }
     }
+    std::cout << "Combined " << chunkMeshes.size() << " chunk meshes" << std::endl;
+    combinedMesh = Mesh::CombineMeshes(chunkMeshes);
+    // print vertices and indices
+    for (int i = 0; i < combinedMesh.getVertices().size(); i += 6) {
+        std::cout << "Vertex " << i / 6 << " : " << combinedMesh.getVertices()[i] << " " << combinedMesh.getVertices()[i + 1] << " " << combinedMesh.getVertices()[i + 2] << std::endl;
+    }
+    // print the number of vertices and indices in the combined mesh
+    std::cout << "Combined mesh has " << combinedMesh.getVertices().size() / 6 << " vertices and " << combinedMesh.getIndices().size() << " indices" << std::endl;
 
-    combinedMesh = Mesh::CombineMeshs(chunkMeshes);
 }
 
 // constructor
 World::World() :
+renderer(&combinedMesh, &shader, &camera, &texture),
 shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
-camera(glm::vec3(0.0f, 0.0f, 3.0f)),
-renderer(&combinedMesh, &shader, &camera, &texture)
-{
+camera(glm::vec3(0.0f, 0.0f, 3.0f))
+{}
+
+void World::Init() {
     generateFlatWorld();
     combineChunkMeshes();
     renderer.setAspectRatio(800, 600);

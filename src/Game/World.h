@@ -18,8 +18,10 @@ public:
 
     World();
 
+
     // static void renderWorld(const World& world, GLuint shaderProgram);
     Chunk* getChunk(int x, int y, int z);
+    void Init();
     void activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ);
     void generateFlatWorld();
     void render();
