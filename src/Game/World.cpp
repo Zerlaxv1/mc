@@ -66,19 +66,23 @@ void World::combineChunkMeshes() {
     std::cout << "Combined " << chunkMeshes.size() << " chunk meshes" << std::endl;
     combinedMesh = Mesh::CombineMeshes(chunkMeshes);
     // print vertices and indices
-    for (int i = 0; i < combinedMesh.getVertices().size(); i += 6) {
+    for (int i = 0; i < 200; i += 6) {
         std::cout << "Vertex " << i / 6 << " : " << combinedMesh.getVertices()[i] << " " << combinedMesh.getVertices()[i + 1] << " " << combinedMesh.getVertices()[i + 2] << std::endl;
     }
     // print the number of vertices and indices in the combined mesh
     std::cout << "Combined mesh has " << combinedMesh.getVertices().size() / 6 << " vertices and " << combinedMesh.getIndices().size() << " indices" << std::endl;
 
+    // print coos of all chunk created
+    for (auto& [pos, chunk] : chunks) {
+        std::cout << "Chunk at " << std::get<0>(pos) << " " << std::get<1>(pos) << " " << std::get<2>(pos) << std::endl;
+    }
 }
 
 // constructor
 World::World() :
 renderer(&combinedMesh, &shader, &camera, &texture),
 shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
-camera(glm::vec3(0.0f, 0.0f, 3.0f))
+camera(glm::vec3(0.0f, 128.0f, 0.0f))
 {}
 
 void World::Init() {

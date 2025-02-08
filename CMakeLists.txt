@@ -40,35 +40,69 @@ set(SOURCES
         src/Game/Blocks/Textures.h
 )
 
+# ImGui
+
+set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
+
+set(IMGUI_SOURCES
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+)
+
+set(IMGUI_BACKENDS
+        ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+
+##### VCPKG #####
+#################
+
+find_package(OpenGL REQUIRED)
+message(STATUS "OpenGL include dirs: ${OPENGL_INCLUDE_DIRS}")
+message(STATUS "OpenGL libraries: ${OPENGL_LIBRARIES}")
+
+find_package(GLEW CONFIG REQUIRED STATIC)
+message(STATUS "GLEW include dirs: ${GLEW_INCLUDE_DIRS}")
+message(STATUS "GLEW libraries: ${GLEW_LIBRARIES}")
+
+find_package(glfw3 CONFIG REQUIRED)
+message(STATUS "GLFW found: ${glfw3_FOUND}")
+message(STATUS "GLFW include dirs: ${GLFW_INCLUDE_DIRS}")
+message(STATUS "GLFW libraries: ${GLFW_LIBRARIES}")
+
+##### Executable #####
+######################
+
+# Créer la bibliothèque imgui
+add_library(imgui ${IMGUI_SOURCES} ${IMGUI_BACKENDS})
+
+target_include_directories(imgui PUBLIC ${IMGUI_DIR})
+
 # Créer l'exécutable
 add_executable(mc ${SOURCES})
 
-#OpenGL and link
-find_package(OpenGL REQUIRED)
-target_link_libraries(mc PRIVATE ${OPENGL_LIBRARIES})
+# Lier les bibliothèques
+target_link_libraries(imgui PUBLIC glfw)
 
-# Find and link GLEW
-find_package(GLEW REQUIRED)
-target_link_libraries(mc PRIVATE GLEW::GLEW)
-
-# Find and link GLFW
-find_package(glfw3 REQUIRED)
-target_link_libraries(mc PRIVATE glfw)
-
-## Find and link GLAD
-#find_package(GLAD REQUIRED)
-#target_link_libraries(mc PRIVATE glad)
-
-# Inclure les répertoires d'en-têtes trouvés
-#include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+target_link_libraries(mc PRIVATE
+        ${OPENGL_LIBRARIES}
+        GLEW::GLEW
+        glfw
+        imgui
+)
 
 # Include directories
-target_include_directories(mc PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS})
+target_include_directories(mc PRIVATE
+        ${OPENGL_INCLUDE_DIRS}
+        ${GLEW_INCLUDE_DIRS}
+        ${GLFW_INCLUDE_DIRS}
+        ${imgui_INCLUDE_DIRS}
+)
 
-#plus besoin
-# Lier les bibliothèques nécessaires
-#target_link_libraries(mc ${OPENGL_LIBRARIES} GLEW::GLEW GLFW3::GLFW3 opengl32 user32 gdi32)
-
+# Définir le niveau de debug
 if (DEBUG_LEVEL)
     add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
 endif()
