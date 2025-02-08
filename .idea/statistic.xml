@@ -6,6 +6,8 @@
         <option value="$PROJECT_DIR$/cmake-build-debug" />
         <option value="$PROJECT_DIR$/cmake-build-release" />
         <option value="$PROJECT_DIR$/.idea" />
+        <option value="$PROJECT_DIR$/external" />
+        <option value="$PROJECT_DIR$/src/tools" />
       </list>
     </option>
   </component>
