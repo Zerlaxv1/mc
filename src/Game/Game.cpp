@@ -14,7 +14,7 @@ Game::Game() {
     // Initialize IMGUI
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
     // Initialize game
@@ -31,7 +31,6 @@ Game::Game() {
 
 int Game::run() {
     while (!windowGLFW.shouldClose()) {
-
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -68,24 +67,31 @@ Game::~Game() {
 
 void Game::processInput() {
     // Gestion des inputs
-    if(windowGLFW.GetKey(GLFW_KEY_ESCAPE))
-        windowGLFW.CloseWindow();
-    if(windowGLFW.GetKey(GLFW_KEY_W))
+    if (windowGLFW.GetKey(GLFW_KEY_ESCAPE))
+        if (glfwGetInputMode(windowGLFW.window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
+            glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            cameraLocked = false;
+        } else {
+            glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            cameraLocked = true;
+        }
+    if (windowGLFW.GetKey(GLFW_KEY_W))
         world.ProcessKeyboard(FORWARD, deltaTime);
-    if(windowGLFW.GetKey(GLFW_KEY_S))
+    if (windowGLFW.GetKey(GLFW_KEY_S))
         world.ProcessKeyboard(BACKWARD, deltaTime);
-    if(windowGLFW.GetKey(GLFW_KEY_A))
+    if (windowGLFW.GetKey(GLFW_KEY_A))
         world.ProcessKeyboard(LEFT, deltaTime);
-    if(windowGLFW.GetKey(GLFW_KEY_D))
+    if (windowGLFW.GetKey(GLFW_KEY_D))
         world.ProcessKeyboard(RIGHT, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_SPACE))
         world.ProcessKeyboard(UP, deltaTime);
     if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
-        world.ProcessKeyboard(DOWN , deltaTime);
+        world.ProcessKeyboard(DOWN, deltaTime);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
     // constrainPitch : inverser haut et bas
+    if (!cameraLocked)
     world.ProcessMouseMovement(xpos, ypos, true);
 }
 
