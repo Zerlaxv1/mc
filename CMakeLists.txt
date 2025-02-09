@@ -23,7 +23,6 @@ set(SOURCES
         src/Game/Game.h
         src/Engine/Renderer.cpp
         src/Engine/Renderer.h
-        src/tools/idk.cpp
         src/Engine/Window.cpp
         src/Engine/Window.h
         src/Engine/Camera.cpp
@@ -57,6 +56,14 @@ set(IMGUI_BACKENDS
         ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
+# stb_image
+
+set(STB_DIR "${CMAKE_SOURCE_DIR}/external/stb")
+
+set(STB_SOURCES
+        ${STB_DIR}/stb_image.cpp
+)
+
 ##### VCPKG #####
 #################
 
@@ -81,6 +88,10 @@ add_library(imgui ${IMGUI_SOURCES} ${IMGUI_BACKENDS})
 
 target_include_directories(imgui PUBLIC ${IMGUI_DIR})
 
+add_library(stb STATIC ${STB_SOURCES})
+
+target_include_directories(stb PUBLIC ${STB_DIR})
+
 # Créer l'exécutable
 add_executable(mc ${SOURCES})
 
@@ -92,6 +103,7 @@ target_link_libraries(mc PRIVATE
         GLEW::GLEW
         glfw
         imgui
+        stb
 )
 
 # Include directories

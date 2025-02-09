@@ -5,8 +5,7 @@
 #include "Texture.h"
 #include <iostream>
 #include <vector>
-
-#include "../tools/stb_image.h"
+#include "stb_image.h"
 
 // Chargement d'une texture depuis un fichier
 unsigned char* Texture::loadTexture(const char* path, int* width, int* height, int* nrChannels) {
