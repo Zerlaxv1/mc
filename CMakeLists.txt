@@ -105,6 +105,8 @@ target_include_directories(mc PRIVATE
 # Définir le niveau de debug
 if (DEBUG_LEVEL)
     add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
+else()
+    add_definitions(-DDEBUG_LEVEL=0)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")

@@ -84,15 +84,18 @@ void Renderer::init() {
     setAspectRatio(800, 600);
 
     //debug
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(MessageCallback, 0);
+    if (DEBUG_LEVEL > 0) {
+        std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+        std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(MessageCallback, 0);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
 
     glBindVertexArray(0); // Unbind VAO après configuration
 }
 
-Renderer::Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {
-}
+Renderer::Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {}
 
 Renderer::~Renderer() {
     glDeleteBuffers(1, &VBO);
