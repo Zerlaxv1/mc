@@ -66,35 +66,53 @@ Game::~Game() {
 }
 
 void Game::processInput() {
-    // Gestion des inputs
-    if (windowGLFW.GetKey(GLFW_KEY_ESCAPE))
-        if (glfwGetInputMode(windowGLFW.window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
-            glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            cameraLocked = false;
-        } else {
-            glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-            cameraLocked = true;
-        }
-    if (windowGLFW.GetKey(GLFW_KEY_W))
+    // if the escape key is pressed for the first time, toggle the camera lock
+    // if the escape key is pressed for the second time ignore it until it is released
+    // if the escape key is released, allow it to be pressed again
+    // this is to prevent the camera from being toggled multiple times when the key is held down
+
+    // true = pressed, false = released
+    bool static lastStatusEscKey;
+    bool currentStatusEscKey = windowGLFW.GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS;
+
+    if (currentStatusEscKey && !lastStatusEscKey) {
+        // esc pressed for the first time
+        toggleMouseLock();
+        world.toggleCameraLock();
+        lastStatusEscKey = true;
+    } else if (!currentStatusEscKey) {
+        // esc released
+        lastStatusEscKey = false;
+    }
+
+    if (windowGLFW.GetKey(GLFW_KEY_W) == GLFW_PRESS)
         world.ProcessKeyboard(FORWARD, deltaTime);
-    if (windowGLFW.GetKey(GLFW_KEY_S))
+    if (windowGLFW.GetKey(GLFW_KEY_S) == GLFW_PRESS)
         world.ProcessKeyboard(BACKWARD, deltaTime);
-    if (windowGLFW.GetKey(GLFW_KEY_A))
+    if (windowGLFW.GetKey(GLFW_KEY_A) == GLFW_PRESS)
         world.ProcessKeyboard(LEFT, deltaTime);
-    if (windowGLFW.GetKey(GLFW_KEY_D))
+    if (windowGLFW.GetKey(GLFW_KEY_D) == GLFW_PRESS)
         world.ProcessKeyboard(RIGHT, deltaTime);
-    if (windowGLFW.GetKey(GLFW_KEY_SPACE))
+    if (windowGLFW.GetKey(GLFW_KEY_SPACE) == GLFW_PRESS)
         world.ProcessKeyboard(UP, deltaTime);
-    if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT))
+    if (windowGLFW.GetKey(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
         world.ProcessKeyboard(DOWN, deltaTime);
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
     // constrainPitch : inverser haut et bas
     if (!cameraLocked)
-    world.ProcessMouseMovement(xpos, ypos, true);
+        world.ProcessMouseMovement(xpos, ypos, true);
 }
 
 void Game::setWindowSize(int i, int i1) {
     world.setAspectRatio(i, i1);
+}
+
+void Game::toggleMouseLock() {
+    if (glfwGetInputMode(windowGLFW.window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
+        glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    } else {
+        glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 }

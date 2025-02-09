@@ -29,6 +29,7 @@ public:
     void ProcessMouseMovement(double xpos, double ypos, bool cond);
     void setAspectRatio(int i, int i1);
     void combineChunkMeshes();
+    void toggleCameraLock();
 private:
     Renderer renderer;
     Mesh combinedMesh;

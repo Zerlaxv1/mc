@@ -22,6 +22,7 @@ public:
     void processInput();
     void processMouseMovement(double xpos, double ypos);
     void setWindowSize(int i, int i1);
+    void toggleMouseLock();
 private:
     Window windowGLFW;
     World world;

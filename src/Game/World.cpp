@@ -78,6 +78,10 @@ void World::combineChunkMeshes() {
     }
 }
 
+void World::toggleCameraLock() {
+    camera.toggleLock();
+}
+
 // constructor
 World::World() :
 renderer(&combinedMesh, &shader, &camera, &texture),

@@ -48,6 +48,9 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
+    if (cameraLocked) {
+        return;
+    }
     xoffset *= MouseSensitivity;
     yoffset *= MouseSensitivity;
 
@@ -74,6 +77,10 @@ void Camera::ProcessMouseScroll(float yoffset)
         Zoom = 1.0f;
     if (Zoom > 45.0f)
         Zoom = 45.0f;
+}
+
+void Camera::toggleLock() {
+    cameraLocked = !cameraLocked;
 }
 
 void Camera::updateCameraVectors()
