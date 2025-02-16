@@ -77,3 +77,7 @@ Block::Block(int id, const std::string &name, const int *textureIDs, bool solid)
 void Block::onInteract() {
     std::cout << "Interacting with " << name << std::endl;
 }
+
+bool Block::isTransparent() {
+    return Transparency;
+}

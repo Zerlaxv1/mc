@@ -25,6 +25,7 @@ public:
 
     BlockID getBlock(int x, int y, int z);
     Mesh *getChunkMesh();
+    bool isTransparent(int x, int y, int z) const;
 };
 
 
