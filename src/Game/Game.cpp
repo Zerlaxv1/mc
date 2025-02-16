@@ -35,7 +35,14 @@ int Game::run() {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        ImGui::ShowDemoWindow(); // Show demo window! :)
+        ImGui::Begin("Statistiques");
+
+        // Affiche le nombre de FPS avec une décimale
+        ImGui::Text("FPS : %.1f", ImGui::GetIO().Framerate);
+
+        // Fin de la fenêtre ImGui
+        ImGui::End();
+
 
         // Input
         processInput();
