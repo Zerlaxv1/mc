@@ -52,13 +52,13 @@ private:
     void updateCameraVectors();
 
     // camera Attributes
-    glm::vec3 Position, Front, Up, Right, WorldUp;
+    glm::vec3 Position, Front, Up, Right, WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
     // euler Angles
-    float Yaw, Pitch;
+    float Yaw, Pitch = 0.0f;
 
     // camera options
-    float MovementSpeed, MouseSensitivity, Zoom;
+    float MovementSpeed, MouseSensitivity, Zoom = 45.0f;
     bool cameraLocked = false;
 };
 
