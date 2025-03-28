@@ -25,6 +25,16 @@ public:
 
     BlockID getBlock(int x, int y, int z);
     Mesh *getChunkMesh();
+
+    void addBlockFaces(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices, int x, int y, int z,
+                       GLuint &indexOffset);
+
+    void addFaceVertices(std::vector<GLfloat> &vertices, const std::vector<GLfloat> &blockVertices, int x, int y, int z,
+                         int face);
+
+    void addFaceIndices(std::vector<GLuint> &indices, const std::vector<GLuint> &blockIndices, GLuint indexOffset,
+                        int face);
+
     bool isTransparent(int x, int y, int z) const;
 };
 

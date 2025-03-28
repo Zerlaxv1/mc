@@ -31,13 +31,14 @@ public:
         int id,
         const std::string &name,
         const int textureIDs[6],
-        bool solid = true
+        bool solid = true,
+        bool transparency = false
     );
 
     // when the block is interacted with (right-click)
     virtual void onInteract();
     // does the black have transparency?
-    bool isTransparent();
+    bool isTransparent() const;
 };
 
 #endif //MC_BLOCK_H

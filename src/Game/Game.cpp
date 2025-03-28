@@ -79,7 +79,7 @@ void Game::processInput() {
     // this is to prevent the camera from being toggled multiple times when the key is held down
 
     // true = pressed, false = released
-    bool static lastStatusEscKey;
+    bool static lastStatusEscKey = false;
     bool currentStatusEscKey = windowGLFW.GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
     if (currentStatusEscKey && !lastStatusEscKey) {

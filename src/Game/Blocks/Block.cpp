@@ -5,7 +5,7 @@
 #include "Block.h"
 #include <algorithm>
 
-Block::Block(int id, const std::string &name, const int *textureIDs, bool solid) : id(id), name(name), isSolid(solid) {
+Block::Block(int id, const std::string &name, const int *textureIDs, bool solid, bool transparency) : id(id), name(name), isSolid(solid), Transparency(transparency) {
     std::vector<float> vertices = {
             // positions         // texture coords       // texture ID
             // Front face
@@ -78,6 +78,6 @@ void Block::onInteract() {
     std::cout << "Interacting with " << name << std::endl;
 }
 
-bool Block::isTransparent() {
+bool Block::isTransparent() const {
     return Transparency;
 }

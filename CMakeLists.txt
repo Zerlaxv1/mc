@@ -64,32 +64,17 @@ set(STB_SOURCES
         ${STB_DIR}/stb_image.cpp
 )
 
-##### VCPKG #####
-#################
+# VCPKG
 
 find_package(OpenGL REQUIRED)
-message(STATUS "OpenGL include dirs: ${OPENGL_INCLUDE_DIRS}")
-message(STATUS "OpenGL libraries: ${OPENGL_LIBRARIES}")
-
 find_package(GLEW CONFIG REQUIRED STATIC)
-message(STATUS "GLEW include dirs: ${GLEW_INCLUDE_DIRS}")
-message(STATUS "GLEW libraries: ${GLEW_LIBRARIES}")
-
 find_package(glfw3 CONFIG REQUIRED)
-message(STATUS "GLFW found: ${glfw3_FOUND}")
-message(STATUS "GLFW include dirs: ${GLFW_INCLUDE_DIRS}")
-message(STATUS "GLFW libraries: ${GLFW_LIBRARIES}")
-
-##### Executable #####
-######################
 
 # Créer la bibliothèque imgui
 add_library(imgui ${IMGUI_SOURCES} ${IMGUI_BACKENDS})
-
 target_include_directories(imgui PUBLIC ${IMGUI_DIR})
 
 add_library(stb STATIC ${STB_SOURCES})
-
 target_include_directories(stb PUBLIC ${STB_DIR})
 
 # Créer l'exécutable
@@ -122,8 +107,8 @@ else()
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(CMAKE_EXE_LINKER_FLAGS -static)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -Os")
+    set(CMAKE_EXE_LINKER_FLAGS "-static -s -Os -Wl,--gc-sections")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -ffunction-sections -fdata-sections")
 endif()
 
 # Copier les shaders

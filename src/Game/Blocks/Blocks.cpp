@@ -12,13 +12,13 @@ void Blocks::initialize() {
     if (blockList.empty()) {
         std::cout << "Initializing blocks" << std::endl;
         int TextureList0[] = {GRASS_TOP, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE};
-        blockList.push_back(Block(AIR, "Air", TextureList0));
+        blockList.push_back(Block(AIR, "Air", TextureList0, false, true));
         int TextureList1[] = {GRASS_TOP, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE};
-        blockList.push_back(Block(GRASS, "Grass", TextureList1));
+        blockList.push_back(Block(GRASS, "Grass", TextureList1, true, false));
         int TextureList2[] = {DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE};
-        blockList.push_back(Block(DIRT, "Dirt", TextureList2));
+        blockList.push_back(Block(DIRT, "Dirt", TextureList2, true, false));
         int TextureList3[] = {STONE, STONE, STONE, STONE, STONE, STONE};
-        blockList.push_back(Block(STONE, "Stone", TextureList3));
+        blockList.push_back(Block(STONE, "Stone", TextureList3, true, false));
         std::cout << "blockList initialized with " << blockList.size() << " blocks." << std::endl;
     } else {
         std::cout << "blockList already initialized." << std::endl;
