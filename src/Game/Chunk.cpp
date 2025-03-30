@@ -47,15 +47,9 @@ void Chunk::generateFlatChunk(int i, int i1, int i2) {
     int centerY = CHUNK_HEIGHT / 2;
     int centerZ = CHUNK_DEPTH / 2;
 
-    blocks[centerX][1][centerZ] = BlockID::STONE;
-
-    for (int x = 0; x < CHUNK_WIDTH; ++x) {
-        for (int z = 0; z < CHUNK_DEPTH; ++z) {
-            setBlock(x, 0, z, BlockID::GRASS);
-        }
-    }
-    setBlock(centerX + 1, 1, centerZ, BlockID::DIRT);
-    setBlock(centerX - 1, 1, centerZ, BlockID::GRASS);
+    setBlock(centerX + 2, 1, centerZ, BlockID::STONE);
+    // setBlock(centerX, 1, centerZ, BlockID::DIRT);
+    setBlock(centerX - 2, 1, centerZ, BlockID::GRASS);
 }
 
 /**
@@ -101,6 +95,12 @@ void Chunk::addBlockFaces(std::vector<GLfloat> &vertices, std::vector<GLuint> &i
     const Block &block = Blocks::getBlock(blocks[x][y][z]);
     const auto &blockVertices = block.mesh.getVertices();
     const auto &blockIndices = block.mesh.getIndices();
+
+    // Debug: afficher l'ID du bloc et ses indices de texture
+    std::cout << "Bloc en (" << x << "," << y << "," << z << ") ID: " << blocks[x][y][z] << std::endl;
+    for (int i = 0; i < 6; i++) {
+        std::cout << "  Face " << i << " texture: " << block.textureIDs[i] << std::endl;
+    }
 
     // Définir les directions des faces
     constexpr std::array<std::tuple<int, int, int>, 6> faceDirections = {

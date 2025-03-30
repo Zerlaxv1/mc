@@ -76,6 +76,11 @@ void Texture::createTexture(const char* imagePath) {
 
 // Créer une texture 2D array et charger toutes les textures dans des fichiers séparés
 GLuint Texture::createTextureArray(const std::vector<std::string>& texturePaths) {
+    std::cout << "Chargement des textures:" << std::endl;
+    for (size_t i = 0; i < texturePaths.size(); i++) {
+        std::cout << "  [" << i << "] " << texturePaths[i] << std::endl;
+    }
+
     int width, height, nrChannels;
     std::vector<unsigned char*> textureData;
 
@@ -88,6 +93,10 @@ GLuint Texture::createTextureArray(const std::vector<std::string>& texturePaths)
             std::cerr << "Failed to load texture at: " << path << std::endl;
         }
     }
+
+    std::cout << "Dimensions des textures: " << width << "x" << height << std::endl;
+    std::cout << "Nombre de canaux: " << nrChannels << std::endl;
+
 
     // Créer la texture avec toutes les couches
     if (nrChannels == 3) {

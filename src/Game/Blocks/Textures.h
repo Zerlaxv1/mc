@@ -25,7 +25,9 @@ public:
     Textures();
     std::vector<std::string> getTextureVector();
 private:
-    std::unordered_map<TextureID, TextureStruct> textureList;
+    static std::unordered_map<TextureID, TextureStruct> textureList;
+
+    static void initializeTextures();
 };
 
 

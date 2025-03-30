@@ -4,6 +4,8 @@
 
 #include "World.h"
 
+#include "Blocks/Textures.h"
+
 // return the chunk at the given position
 Chunk *World::getChunk(int x, int y, int z) {
     auto it = chunks.find(std::make_tuple(x, y, z));
@@ -107,6 +109,16 @@ World::World() : renderer(&combinedMesh, &shader, &camera, &texture),
 }
 
 void World::Init() {
+
+    // Créer une instance de Textures
+    Textures texturesManager;
+
+    // Obtenir les chemins des textures
+    std::vector<std::string> texturePaths = texturesManager.getTextureVector();
+
+    // Charger les textures dans le tableau de textures
+    texture.createTextureArray(texturePaths);
+
     generateFlatWorld();
     combineChunkMeshes();
     renderer.setAspectRatio(800, 600);

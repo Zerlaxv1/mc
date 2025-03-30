@@ -4,13 +4,20 @@
 
 #include <vector>
 #include "Textures.h"
+#include <iostream>
+
 #include "../../Engine/Texture.h"
 
+std::unordered_map<TextureID, TextureStruct> Textures::textureList;
+
 Textures::Textures() {
-    textureList[GRASS_TOP] = {GRASS_TOP, "grass_top.png"};
-    textureList[GRASS_SIDE] = {GRASS_SIDE, "grass_side.png"};
-    textureList[DIRT_FACE] = {DIRT_FACE, "dirt.png"};
-    textureList[STONE_FACE] = {STONE_FACE, "stone.png"};
+    if (textureList.empty()) {
+        std::cout << "Initializing textures" << std::endl;
+        initializeTextures();
+        std::cout << "textureList initialized with " << textureList.size() << " textures." << std::endl;
+    } else {
+        std::cout << "Textures already initialized." << std::endl;
+    }
 }
 
 //transform textureList to a vector of strings
@@ -20,4 +27,11 @@ std::vector<std::string> Textures::getTextureVector() {
         texturePaths.push_back(i.second.path);
     }
     return texturePaths;
+}
+
+void Textures::initializeTextures() {
+    textureList[GRASS_TOP] = {GRASS_TOP, "./Resources/Textures/grass-top.png"};
+    textureList[GRASS_SIDE] = {GRASS_SIDE, "./Resources/Textures/grass-side.png"};
+    textureList[DIRT_FACE] = {DIRT_FACE, "./Resources/Textures/dirt.png"};
+    textureList[STONE_FACE] = {STONE_FACE, "./Resources/Textures/stone.png"};
 }
