@@ -8,11 +8,12 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Mesh.h"
+#include "SharedPropertiesEngine.h"
 #include "Texture.h"
 
 class Renderer {
 public:
-    Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture);
+    Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture, SharedPropertiesEngine* sharedProps);
     ~Renderer();
 
     void init();
@@ -28,6 +29,7 @@ private:
     Mesh* mesh;
     Camera* camera;
     Texture* texture;
+    SharedPropertiesEngine* sharedProps;
     float AspectRatio;
 };
 

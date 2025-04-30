@@ -8,13 +8,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Texture.h"
 
-void GLAPIENTRY MessageCallback( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam ) {
-    std::cerr << "GL CALLBACK: " << ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ) <<
-              " type = 0x" << std::hex << type << ", severity = 0x" << severity << ", message = " << message << std::endl;
+void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+                                const GLchar *message, const void *userParam) {
+    std::cerr << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "") <<
+            " type = 0x" << std::hex << type << ", severity = 0x" << severity << ", message = " << message << std::endl;
 }
 
 void Renderer::init() {
-
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_CULL_FACE);
@@ -95,7 +95,10 @@ void Renderer::init() {
     glBindVertexArray(0); // Unbind VAO après configuration
 }
 
-Renderer::Renderer(Mesh* mesh, Shader* shader, Camera* camera, Texture* texture ) : shader(shader), mesh(mesh), camera(camera), texture(texture) {}
+Renderer::Renderer(Mesh *mesh, Shader *shader, Camera *camera, Texture *texture,
+                   SharedPropertiesEngine *sharedProps) : shader(shader), mesh(mesh), camera(camera), texture(texture),
+                                                          sharedProps(sharedProps) {
+}
 
 Renderer::~Renderer() {
     glDeleteBuffers(1, &VBO);
@@ -119,7 +122,7 @@ void Renderer::draw() {
 
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
-    glm::mat4 projection = glm::perspective(glm::radians(90.0f), AspectRatio, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(sharedProps->fov), AspectRatio, 0.1f, 100.0f);
 
     //debug
     // std::cout << "View Matrix: \n" << glm::to_string(view) << std::endl;

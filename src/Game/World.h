@@ -30,6 +30,8 @@ public:
     void setAspectRatio(int i, int i1);
     void combineChunkMeshes();
     void toggleCameraLock();
+
+    SharedPropertiesEngine sharedProps;
 private:
     Renderer renderer;
     Mesh combinedMesh;

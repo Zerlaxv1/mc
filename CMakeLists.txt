@@ -37,6 +37,7 @@ set(SOURCES
         src/Game/Blocks/Block.h
         src/Game/Blocks/Textures.cpp
         src/Game/Blocks/Textures.h
+        src/Engine/SharedPropertiesEngine.h
 )
 
 # ImGui

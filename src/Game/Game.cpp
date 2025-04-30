@@ -31,25 +31,29 @@ Game::Game() {
 
 int Game::run() {
     while (!windowGLFW.shouldClose()) {
+
+        // calcul deltaTime
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
+
         ImGui::NewFrame();
         ImGui::Begin("Statistiques");
 
-        // Affiche le nombre de FPS avec une décimale
+        ImGui::Text("Temps entre les frames : %.3f ms", deltaTime * 1000.0f);
         ImGui::Text("FPS : %.1f", ImGui::GetIO().Framerate);
-
-        // Fin de la fenêtre ImGui
+        ImGui::SliderFloat("FOV", &world.sharedProps.fov, 1.0f, 180.0f);
         ImGui::End();
 
 
         // Input
         processInput();
 
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+
 
         // Rendering
         world.render();

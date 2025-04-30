@@ -103,7 +103,7 @@ void World::toggleCameraLock() {
 }
 
 // constructor
-World::World() : renderer(&combinedMesh, &shader, &camera, &texture),
+World::World() : renderer(&combinedMesh, &shader, &camera, &texture, &sharedProps),
                  shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
                  camera(glm::vec3(0.0f, 3.0f, 0.0f)) {
 }
