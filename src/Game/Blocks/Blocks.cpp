@@ -15,7 +15,7 @@ void Blocks::initialize() {
         blockList.push_back(Block(AIR, "Air", TextureList0, false, true));
         int TextureList2[] = {DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE};
         blockList.push_back(Block(DIRT, "Dirt", TextureList2, true, false));
-        int TextureList1[] = {GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_TOP, DIRT_FACE};
+        int TextureList1[] = {GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE , GRASS_TOP};
         blockList.push_back(Block(GRASS, "Grass", TextureList1, true, false));
         int TextureList3[] = {STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE};
         blockList.push_back(Block(STONE, "Stone", TextureList3, true, false));

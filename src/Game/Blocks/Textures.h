@@ -5,7 +5,7 @@
 #ifndef MC_TEXTURES_H
 #define MC_TEXTURES_H
 
-#include <unordered_map>
+#include <map>
 #include <string>
 
 enum TextureID {
@@ -15,17 +15,12 @@ enum TextureID {
     STONE_FACE = 3,
 };
 
-struct TextureStruct {
-    TextureID id;
-    const char* path;
-};
-
 class Textures {
 public:
     Textures();
     std::vector<std::string> getTextureVector();
 private:
-    static std::unordered_map<TextureID, TextureStruct> textureList;
+    static std::map<TextureID, const char*> textureList;
 
     static void initializeTextures();
 };

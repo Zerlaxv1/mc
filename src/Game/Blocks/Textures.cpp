@@ -8,7 +8,7 @@
 
 #include "../../Engine/Texture.h"
 
-std::unordered_map<TextureID, TextureStruct> Textures::textureList;
+std::map<TextureID, const char*> Textures::textureList;
 
 Textures::Textures() {
     if (textureList.empty()) {
@@ -24,14 +24,14 @@ Textures::Textures() {
 std::vector<std::string> Textures::getTextureVector() {
     std::vector<std::string> texturePaths;
     for (auto &i: textureList) {
-        texturePaths.push_back(i.second.path);
+        texturePaths.push_back(i.second);
     }
     return texturePaths;
 }
 
 void Textures::initializeTextures() {
-    textureList[GRASS_TOP] = {GRASS_TOP, "./Resources/Textures/grass-top.png"};
-    textureList[GRASS_SIDE] = {GRASS_SIDE, "./Resources/Textures/grass-side.png"};
-    textureList[DIRT_FACE] = {DIRT_FACE, "./Resources/Textures/dirt.png"};
-    textureList[STONE_FACE] = {STONE_FACE, "./Resources/Textures/stone.png"};
+    textureList[GRASS_TOP] = "./Resources/Textures/grass-top.png";
+    textureList[GRASS_SIDE] =  "./Resources/Textures/grass-side.png";
+    textureList[DIRT_FACE] = "./Resources/Textures/dirt.png";
+    textureList[STONE_FACE] = "./Resources/Textures/stone.png";
 }
