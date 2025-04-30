@@ -7,6 +7,25 @@ project(mc)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Utiliser FetchContent pour télécharger les dépendances
+include(FetchContent)
+
+# Récupérer ImGui depuis GitHub
+FetchContent_Declare(
+        imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG v1.91.9
+)
+FetchContent_MakeAvailable(imgui)
+
+# Récupérer stb depuis GitHub
+FetchContent_Declare(
+        stb
+        GIT_REPOSITORY https://github.com/nothings/stb.git
+        GIT_TAG master
+)
+FetchContent_MakeAvailable(stb)
+
 # Ajouter les fichiers sources
 set(SOURCES
         src/main.cpp
@@ -40,9 +59,8 @@ set(SOURCES
         src/Engine/SharedPropertiesEngine.h
 )
 
-# ImGui
-
-set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
+# ImGui - Utiliser le chemin fourni par FetchContent
+set(IMGUI_DIR "${imgui_SOURCE_DIR}")
 
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui.cpp
@@ -57,16 +75,12 @@ set(IMGUI_BACKENDS
         ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
-# stb_image
-
-set(STB_DIR "${CMAKE_SOURCE_DIR}/external/stb")
-
-set(STB_SOURCES
-        ${STB_DIR}/stb_image.cpp
-)
+# stb_image - Créer un fichier wrapper pour stb_image
+file(WRITE ${CMAKE_BINARY_DIR}/stb_image.cpp
+        "#define STB_IMAGE_IMPLEMENTATION
+#include \"stb_image.h\"")
 
 # VCPKG
-
 find_package(OpenGL REQUIRED)
 find_package(GLEW CONFIG REQUIRED STATIC)
 find_package(glfw3 CONFIG REQUIRED)
@@ -75,8 +89,9 @@ find_package(glfw3 CONFIG REQUIRED)
 add_library(imgui ${IMGUI_SOURCES} ${IMGUI_BACKENDS})
 target_include_directories(imgui PUBLIC ${IMGUI_DIR})
 
-add_library(stb STATIC ${STB_SOURCES})
-target_include_directories(stb PUBLIC ${STB_DIR})
+# Créer la bibliothèque stb
+add_library(stb STATIC ${CMAKE_BINARY_DIR}/stb_image.cpp)
+target_include_directories(stb PUBLIC ${stb_SOURCE_DIR})
 
 # Créer l'exécutable
 add_executable(mc ${SOURCES})
@@ -103,14 +118,14 @@ target_include_directories(mc PRIVATE
 # Définir le niveau de debug
 if (DEBUG_LEVEL)
     add_definitions(-DDEBUG_LEVEL=${DEBUG_LEVEL})
-else()
+else ()
     add_definitions(-DDEBUG_LEVEL=0)
-endif()
+endif ()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS "-static -s -Os -Wl,--gc-sections")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -ffunction-sections -fdata-sections")
-endif()
+endif ()
 
 # Copier les shaders
 add_custom_command(TARGET mc POST_BUILD
