@@ -43,13 +43,19 @@ void Chunk::setBlock(int x, int y, int z, BlockID block) {
 
 //generate a chunk with Grass and Stone in the center in cross on the x and z axis
 void Chunk::generateFlatChunk(int i, int i1, int i2) {
-    int centerX = CHUNK_WIDTH / 2;
-    int centerY = CHUNK_HEIGHT / 2;
-    int centerZ = CHUNK_DEPTH / 2;
-
-    setBlock(centerX + 2, 1, centerZ, BlockID::STONE);
-    // setBlock(centerX, 1, centerZ, BlockID::DIRT);
-    setBlock(centerX - 2, 1, centerZ, BlockID::GRASS);
+    for (int x = 0; x < CHUNK_WIDTH; ++x) {
+        for (int y = 0; y < CHUNK_HEIGHT; ++y) {
+            for (int z = 0; z < CHUNK_DEPTH; ++z) {
+                if (x == i && z == i2) {
+                    blocks[x][y][z] = BlockID::GRASS;
+                } else if (y == i1) {
+                    blocks[x][y][z] = BlockID::STONE;
+                } else {
+                    blocks[x][y][z] = BlockID::AIR;
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -97,10 +103,10 @@ void Chunk::addBlockFaces(std::vector<GLfloat> &vertices, std::vector<GLuint> &i
     const auto &blockIndices = block.mesh.getIndices();
 
     // Debug: afficher l'ID du bloc et ses indices de texture
-    std::cout << "Bloc en (" << x << "," << y << "," << z << ") ID: " << blocks[x][y][z] << std::endl;
-    for (int i = 0; i < 6; i++) {
-        std::cout << "  Face " << i << " texture: " << block.textureIDs[i] << std::endl;
-    }
+    // std::cout << "Bloc en (" << x << "," << y << "," << z << ") ID: " << blocks[x][y][z] << std::endl;
+    // for (int i = 0; i < 6; i++) {
+    //     std::cout << "  Face " << i << " texture: " << block.textureIDs[i] << std::endl;
+    // }
 
     // Définir les directions des faces
     constexpr std::array<std::tuple<int, int, int>, 6> faceDirections = {
