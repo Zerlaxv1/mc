@@ -11,14 +11,17 @@ std::vector<Block> Blocks::blockList;
 void Blocks::initialize() {
     if (blockList.empty()) {
         std::cout << "Initializing blocks" << std::endl;
-        int TextureList0[] = {GRASS_TOP, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE};
-        blockList.push_back(Block(AIR, "Air", TextureList0, false, true));
-        int TextureList2[] = {DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE};
-        blockList.push_back(Block(DIRT, "Dirt", TextureList2, true, false));
-        int TextureList1[] = {GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE , GRASS_TOP};
-        blockList.push_back(Block(GRASS, "Grass", TextureList1, true, false));
-        int TextureList3[] = {STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE};
-        blockList.push_back(Block(STONE, "Stone", TextureList3, true, false));
+
+        auto addBlock = [](BlockID id, const std::string& name, const std::vector<int>& textures, bool isSolid, bool isTransparent) {
+            blockList.push_back(Block(id, name, textures.data(), isSolid, isTransparent));
+        };
+
+        // front, back, left, right, bottom, top
+        addBlock(AIR, "Air", {0, 0, 0, 0, 0, 0}, false, true);
+        addBlock(DIRT, "Dirt", {DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE, DIRT_FACE}, true, false);
+        addBlock(GRASS, "Grass", {GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, GRASS_SIDE, DIRT_FACE, GRASS_TOP}, true, false);
+        addBlock(STONE, "Stone", {STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE, STONE_FACE}, true, false);
+
         std::cout << "blockList initialized with " << blockList.size() << " blocks." << std::endl;
     } else {
         std::cout << "blockList already initialized." << std::endl;
