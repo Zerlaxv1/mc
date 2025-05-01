@@ -127,3 +127,7 @@ void Game::toggleMouseLock() {
         glfwSetInputMode(windowGLFW.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }
+
+void Game::stop() {
+    glfwSetWindowShouldClose(windowGLFW.window, true);
+}

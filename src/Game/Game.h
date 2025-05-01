@@ -23,6 +23,9 @@ public:
     void processMouseMovement(double xpos, double ypos);
     void setWindowSize(int i, int i1);
     void toggleMouseLock();
+
+    void stop();
+
 private:
     Window windowGLFW;
     World world;
