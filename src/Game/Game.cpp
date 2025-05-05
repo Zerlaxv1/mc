@@ -46,7 +46,14 @@ int Game::run() {
 
         ImGui::Text("Temps entre les frames : %.3f ms", deltaTime * 1000.0f);
         ImGui::Text("FPS : %.1f", ImGui::GetIO().Framerate);
-        ImGui::SliderFloat("FOV", &world.sharedProps.fov, 1.0f, 180.0f);
+        ImGui::SliderFloat("FOV", &world.sharedPropsEngine.fov, 1.0f, 180.0f);
+
+        // add camera position to imgui
+        ImGui::Text("Camera Position : (%.1f, %.1f, %.1f)",
+                  world.sharedPropsEngine.cameraPos.x,
+                  world.sharedPropsEngine.cameraPos.y,
+                  world.sharedPropsEngine.cameraPos.z);
+
         ImGui::End();
 
 
@@ -111,8 +118,6 @@ void Game::processInput() {
 }
 
 void Game::processMouseMovement(double xpos, double ypos) {
-    // constrainPitch : inverser haut et bas
-    if (!cameraLocked)
         world.ProcessMouseMovement(xpos, ypos, true);
 }
 

@@ -7,9 +7,12 @@
 
 #include <map>
 #include <tuple>
+
+#include "CameraController.h"
 #include "Chunk.h"
 #include "../Engine/Camera.h"
 #include "../Engine/Renderer.h"
+#include "SharedPropertiesGame.h"
 
 class World {
 public:
@@ -31,12 +34,14 @@ public:
     void combineChunkMeshes();
     void toggleCameraLock();
 
-    SharedPropertiesEngine sharedProps;
+    SharedPropertiesEngine sharedPropsEngine;
+    SharedPropertiesGame sharedPropsGame;
 private:
     Renderer renderer;
     Mesh combinedMesh;
     Shader shader;
     Camera camera;
+    CameraController cameraController;
     Texture texture;
 };
 

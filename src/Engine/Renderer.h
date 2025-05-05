@@ -18,8 +18,6 @@ public:
 
     void init();
     void draw();
-    void ProcessKeyboard(Camera_Movement movement, float deltaTime);
-    void ProcessMouseMovement(double xpos, double ypos, bool cond);
 
     void setAspectRatio(int i, int i1);
 
@@ -29,7 +27,7 @@ private:
     Mesh* mesh;
     Camera* camera;
     Texture* texture;
-    SharedPropertiesEngine* sharedProps;
+    SharedPropertiesEngine* sharedPropsEngine;
     float AspectRatio;
 };
 

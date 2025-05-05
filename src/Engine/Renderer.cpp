@@ -97,7 +97,7 @@ void Renderer::init() {
 
 Renderer::Renderer(Mesh *mesh, Shader *shader, Camera *camera, Texture *texture,
                    SharedPropertiesEngine *sharedProps) : shader(shader), mesh(mesh), camera(camera), texture(texture),
-                                                          sharedProps(sharedProps) {
+                                                          sharedPropsEngine(sharedProps) {
 }
 
 Renderer::~Renderer() {
@@ -122,7 +122,7 @@ void Renderer::draw() {
 
     // projection matrix
     // fov, aspect ratio (16:9, 4:3), near (everything under is not rendered), far (everything above is not rendered)
-    glm::mat4 projection = glm::perspective(glm::radians(sharedProps->fov), AspectRatio, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(sharedPropsEngine->fov), AspectRatio, 0.1f, 100.0f);
 
     //debug
     // std::cout << "View Matrix: \n" << glm::to_string(view) << std::endl;
@@ -146,14 +146,6 @@ void Renderer::draw() {
         std::cerr << "OpenGL error glDrawElements : " << err << std::endl;
     }
     glBindVertexArray(0);
-}
-
-void Renderer::ProcessKeyboard(Camera_Movement movement, float deltatime) {
-    camera->ProcessKeyboard(movement, deltatime);
-}
-
-void Renderer::ProcessMouseMovement(double xpos, double ypos, bool cond) {
-    camera->ProcessMouseMovement(xpos, ypos, cond);
 }
 
 void Renderer::setAspectRatio(int width, int height) {

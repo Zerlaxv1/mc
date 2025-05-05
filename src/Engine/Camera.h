@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "SharedPropertiesEngine.h"
 
 enum Camera_Movement {
     FORWARD,
@@ -19,19 +20,14 @@ enum Camera_Movement {
 };
 
 // Default camera values
-const float YAW         = -90.0f;
-const float PITCH       =  0.0f;
-const float SPEED       =  5.0f;
-const float SENSITIVITY =  0.1f;
-const float ZOOM        =  45.0f;
+const float YAW = -90.0f;
+const float PITCH = 0.0f;
 
 class Camera {
 public:
     // constructor with vectors
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
-
-    // constructor with scalar values
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+    Camera(SharedPropertiesEngine *sharedPropertiesEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
+           float yaw = -90.0f, float pitch = 0.0f);
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix();
@@ -45,23 +41,20 @@ public:
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
 
-    void toggleLock();
-
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();
 
     // camera Attributes
-    glm::vec3 Position, Front, Up, Right, WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 Front, Up, Right, WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    SharedPropertiesEngine *sharedPropertiesEngine;
+
+    glm::vec3& Position;
 
     // euler Angles
     float Yaw, Pitch = 0.0f;
-
-    // camera options
-    float MovementSpeed, MouseSensitivity, Zoom = 45.0f;
-    bool cameraLocked = false;
 };
-
 
 
 #endif //CAMERA_H

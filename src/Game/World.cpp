@@ -48,12 +48,12 @@ void World::render() {
 
 // process keyboard input
 void World::ProcessKeyboard(Camera_Movement movement, float deltatime) {
-    renderer.ProcessKeyboard(movement, deltatime);
+    cameraController.ProcessKeyboard(movement, deltatime);
 }
 
 // process mouse input
 void World::ProcessMouseMovement(double xpos, double ypos, bool cond) {
-    renderer.ProcessMouseMovement(xpos, ypos, cond);
+    cameraController.ProcessMouseMovement(xpos, ypos, cond);
 }
 
 // set the window size
@@ -77,10 +77,12 @@ void World::combineChunkMeshes() {
                 << " indices" << std::endl;
 
         if (mesh != nullptr) {
-            std::cout << "Adding mesh of chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get<2>(pos) << ")" << std::endl;
+            std::cout << "Adding mesh of chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get<
+                2>(pos) << ")" << std::endl;
             chunkMeshes.push_back(*mesh);
         } else {
-            std::cout << "No mesh found for chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get<2>(pos) << ")" << std::endl;
+            std::cout << "No mesh found for chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get
+                    <2>(pos) << ")" << std::endl;
         }
     }
     std::cout << "Combined " << chunkMeshes.size() << " chunk meshes" << std::endl;
@@ -99,17 +101,17 @@ void World::combineChunkMeshes() {
 }
 
 void World::toggleCameraLock() {
-    camera.toggleLock();
+    cameraController.toggleLock();
 }
 
 // constructor
-World::World() : renderer(&combinedMesh, &shader, &camera, &texture, &sharedProps),
+World::World() : renderer(&combinedMesh, &shader, &camera, &texture, &sharedPropsEngine),
+                 camera(Camera(&sharedPropsEngine)),
                  shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
-                 camera(glm::vec3(0.0f, 3.0f, 0.0f)) {
+                 cameraController(&camera) {
 }
 
 void World::Init() {
-
     // Créer une instance de Textures
     Textures texturesManager;
 
