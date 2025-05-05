@@ -108,7 +108,7 @@ void World::toggleCameraLock() {
 World::World() : renderer(&combinedMesh, &shader, &camera, &texture, &sharedPropsEngine),
                  camera(Camera(&sharedPropsEngine)),
                  shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
-                 cameraController(&camera) {
+                 cameraController(&camera, &sharedPropsGame) {
 }
 
 void World::Init() {

@@ -4,9 +4,9 @@
 
 #include "CameraController.h"
 
-CameraController::CameraController(Camera* targetCamera, float speed, float sensitivity) {
+CameraController::CameraController(Camera *targetCamera, SharedPropertiesGame *sharedProperties, float speed,
+                                   float sensitivity) : movementSpeed(sharedProperties->cameraSpeed) {
     camera = targetCamera;
-    movementSpeed = speed;
     mouseSensitivity = sensitivity;
     cameraLocked = false;
 }
@@ -15,6 +15,7 @@ void CameraController::ProcessKeyboard(Camera_Movement direction, float deltaTim
     float velocity = movementSpeed * deltaTime;
     camera->ProcessKeyboard(direction, velocity);
 }
+
 void CameraController::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
     if (cameraLocked) {
         return;
@@ -25,9 +26,11 @@ void CameraController::ProcessMouseMovement(float xoffset, float yoffset, bool c
 
     camera->ProcessMouseMovement(xoffset, yoffset, constrainPitch);
 }
+
 void CameraController::ProcessMouseScroll(float yoffset) {
     camera->ProcessMouseScroll(yoffset);
 }
+
 void CameraController::toggleLock() {
     cameraLocked = !cameraLocked;
 }

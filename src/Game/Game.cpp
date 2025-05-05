@@ -42,25 +42,38 @@ int Game::run() {
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
+
         ImGui::Begin("Statistiques");
+
+        ImGui::Text("Echape pour libérer la souris");
+
+        ImGui::Separator();
 
         ImGui::Text("Temps entre les frames : %.3f ms", deltaTime * 1000.0f);
         ImGui::Text("FPS : %.1f", ImGui::GetIO().Framerate);
-        ImGui::SliderFloat("FOV", &world.sharedPropsEngine.fov, 1.0f, 180.0f);
 
-        // add camera position to imgui
-        ImGui::Text("Camera Position : (%.1f, %.1f, %.1f)",
-                  world.sharedPropsEngine.cameraPos.x,
-                  world.sharedPropsEngine.cameraPos.y,
-                  world.sharedPropsEngine.cameraPos.z);
+        ImGui::NewLine();
 
+        ImGui::Text("FOV");
+        ImGui::SliderFloat("##FOV", &world.sharedPropsEngine.fov, 1.0f, 180.0f);
+
+        ImGui::NewLine();
+
+        ImGui::Text("Camera Position");
+        ImGui::InputFloat3("##CameraPosition", &world.sharedPropsEngine.cameraPos.x);
+
+        ImGui::NewLine();
+
+        ImGui::Text("Camera Rotation");
+
+        ImGui::NewLine();
+
+        ImGui::Text("Camera Speed");
+        ImGui::SliderFloat("##Camera Speed", &world.sharedPropsGame.cameraSpeed, 0.1f, 10.0f);
         ImGui::End();
-
 
         // Input
         processInput();
-
-
 
         // Rendering
         world.render();

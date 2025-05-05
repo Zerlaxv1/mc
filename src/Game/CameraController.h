@@ -5,18 +5,19 @@
 #ifndef CAMERACONTROLLER_H
 #define CAMERACONTROLLER_H
 
+#include "SharedPropertiesGame.h"
 #include "../Engine/Camera.h"
 
 // Dans Game/CameraController.h
 class CameraController {
 private:
     Camera* camera;
-    float movementSpeed;
+    float& movementSpeed;
     float mouseSensitivity;
     bool cameraLocked;
 
 public:
-    CameraController(Camera* targetCamera, float speed = 2.5f, float sensitivity = 0.1f);
+    CameraController(Camera* targetCamera,SharedPropertiesGame* sharedProperties , float speed = 2.5f, float sensitivity = 0.1f);
 
     void ProcessKeyboard(Camera_Movement direction, float deltaTime);
     void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);

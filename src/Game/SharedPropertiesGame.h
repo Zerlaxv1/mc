@@ -8,7 +8,7 @@
 #define SHAREDPROPERTIESGAME_H
 
 struct SharedPropertiesGame {
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+    float cameraSpeed = 2.5f;
 };
 
 #endif //SHAREDPROPERTIESGAME_H
