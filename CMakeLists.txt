@@ -8,6 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if (DEFINED CMAKE_TOOLCHAIN_FILE)
+    message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
+else()
+    message(WARNING "CMAKE_TOOLCHAIN_FILE is not defined. Make sure to provide it.")
+endif()
+
 # ========== Dépendances externes ==========
 include(FetchContent)
 
@@ -52,6 +58,8 @@ set(GAME_SOURCES
     src/Game/World.h
     src/Game/Game.cpp
     src/Game/Game.h
+        src/Game/CameraController.cpp
+        src/Game/CameraController.h
 )
 
 # Sources des blocs
@@ -140,7 +148,10 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     include(CheckIPOSupported)
     check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_ERROR)
     if(IPO_SUPPORTED)
+        message(STATUS "IPO is supported")
         set_target_properties(mc PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+    else ()
+        message(WARNING "IPO is not supported: ${IPO_ERROR}")
     endif()
 endif()
 
