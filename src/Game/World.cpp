@@ -8,11 +8,13 @@
 
 // return the chunk at the given position
 Chunk *World::getChunk(int x, int y, int z) {
-    auto it = chunks.find(std::make_tuple(x, y, z));
-    if (it != chunks.end()) {
-        return &it->second;
-    }
-    return nullptr; // Chunk non trouvé (hors du monde chargé)
+    return chunkManager.getChunk(x, y, z);
+}
+
+void World::updateLoadedChunks() {
+    chunkManager.updateLoadedChunks(sharedPropsEngine.cameraPos);
+    // Re-combiner les meshes après avoir mis à jour les chunks
+    combineChunkMeshes();
 }
 
 // activate the block at the given position in the given chunk
@@ -23,22 +25,6 @@ void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int vo
     } else {
         std::cerr << "Chunk not found at (" << chunkX << ", " << chunkY << ", " << chunkZ << ")" << std::endl;
     }
-}
-
-
-// call the generateFlatChunk function for each chunk in the world
-void World::generateFlatWorld() {
-    std::cout << "Generating flat world..." << std::endl;
-    for (int x = 0; x <= 0; x++) {
-        for (int y = 0; y <= 0; y++) {
-            for (int z = 0; z <= 0; z++) {
-                std::cout << "Generating chunk at (" << x << ", " << y << ", " << z << ")" << std::endl;
-                Chunk &chunk = chunks[std::make_tuple(x, y, z)];
-                chunk.generateFlatChunk(x, y, z);
-            }
-        }
-    }
-    std::cout << "Finished generating flat world." << std::endl;
 }
 
 // render world
@@ -63,41 +49,14 @@ void World::setAspectRatio(int i, int i1) {
 
 // combine all the chunk meshes into one mesh (to reduce draw calls)
 void World::combineChunkMeshes() {
-    // array of all the meshes
-    std::vector<Mesh> chunkMeshes;
+    std::vector<Mesh> chunkMeshes = chunkManager.getAllChunkMeshes();
 
-    for (auto &[pos, chunk]: chunks) {
-        Mesh *mesh = chunk.getChunkMesh();
-
-        std::cout << "Mesh of chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get<2>(pos) <<
-                ")"
-                << " has " << mesh->getVertices().size() / 6
-                << " vertices and "
-                << mesh->getIndices().size()
-                << " indices" << std::endl;
-
-        if (mesh != nullptr) {
-            std::cout << "Adding mesh of chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get<
-                2>(pos) << ")" << std::endl;
-            chunkMeshes.push_back(*mesh);
-        } else {
-            std::cout << "No mesh found for chunk (" << std::get<0>(pos) << ", " << std::get<1>(pos) << ", " << std::get
-                    <2>(pos) << ")" << std::endl;
-        }
+    if (!chunkMeshes.empty()) {
+        std::cout << "Combined " << chunkMeshes.size() << " chunk meshes" << std::endl;
+        combinedMesh = Mesh::CombineMeshes(chunkMeshes);
+    } else {
+        std::cout << "No chunk meshes found" << std::endl;
     }
-    std::cout << "Combined " << chunkMeshes.size() << " chunk meshes" << std::endl;
-    combinedMesh = Mesh::CombineMeshes(chunkMeshes);
-    // print vertices and indices
-    // for (int i = 0; i < 6000; i += 6) {
-    //     std::cout << "Vertex " << i / 6 << " : X = " << combinedMesh.getVertices()[i] << ", Y = " << combinedMesh.getVertices()[i + 1] << ", Z = " << combinedMesh.getVertices()[i + 2] << std::endl;
-    // }
-    // print the number of vertices and indices in the combined mesh
-    // std::cout << "Combined mesh has " << combinedMesh.getVertices().size() / 6 << " vertices and " << combinedMesh.getIndices().size() << " indices" << std::endl;
-
-    // print coos of all chunk created
-    // for (auto &[pos, chunk]: chunks) {
-    //     std::cout << "Chunk at " << std::get<0>(pos) << " " << std::get<1>(pos) << " " << std::get<2>(pos) << std::endl;
-    // }
 }
 
 void World::toggleCameraLock() {
@@ -108,21 +67,23 @@ void World::toggleCameraLock() {
 World::World() : renderer(&combinedMesh, &shader, &camera, &texture, &sharedPropsEngine),
                  camera(Camera(&sharedPropsEngine)),
                  shader("./Resources/Shaders/VertexTextures.glsl", "./Resources/Shaders/fragmentTextures.glsl"),
-                 cameraController(&camera, &sharedPropsGame) {
+                 cameraController(&camera, &sharedPropsGame),
+                 chunkManager(sharedPropsGame) {
 }
 
 void World::Init() {
-    // Créer une instance de Textures
+    // Textures
     Textures texturesManager;
-
-    // Obtenir les chemins des textures
     std::vector<std::string> texturePaths = texturesManager.getTextureVector();
-
-    // Charger les textures dans le tableau de textures
     texture.createTextureArray(texturePaths);
 
-    generateFlatWorld();
+    // Map
+    chunkManager.generateFlatWorld(0, 0, sharedPropsGame.renderDistance, sharedPropsGame.renderDistance,
+                                   sharedPropsGame.CHUNK_SIZE);
+    // generateFlatWorld();
     combineChunkMeshes();
+
+    // Init
     renderer.setAspectRatio(800, 600);
     renderer.init();
 }

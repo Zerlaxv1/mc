@@ -60,6 +60,8 @@ set(GAME_SOURCES
     src/Game/Game.h
         src/Game/CameraController.cpp
         src/Game/CameraController.h
+        src/Game/ChunkManager.cpp
+        src/Game/ChunkManager.h
 )
 
 # Sources des blocs

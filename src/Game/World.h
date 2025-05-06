@@ -13,6 +13,7 @@
 #include "../Engine/Camera.h"
 #include "../Engine/Renderer.h"
 #include "SharedPropertiesGame.h"
+#include "ChunkManager.h"
 
 class World {
 public:
@@ -21,17 +22,18 @@ public:
 
     World();
 
-
-    // static void renderWorld(const World& world, GLuint shaderProgram);
-    Chunk* getChunk(int x, int y, int z);
     void Init();
+
+    Chunk* getChunk(int x, int y, int z);
     void activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ);
-    void generateFlatWorld();
+    void updateLoadedChunks();
+    void combineChunkMeshes();
+
+    // void generateFlatWorld();
     void render();
     void ProcessKeyboard(Camera_Movement movement, float deltatime);
     void ProcessMouseMovement(double xpos, double ypos, bool cond);
     void setAspectRatio(int i, int i1);
-    void combineChunkMeshes();
     void toggleCameraLock();
 
     SharedPropertiesEngine sharedPropsEngine;
@@ -41,8 +43,10 @@ private:
     Mesh combinedMesh;
     Shader shader;
     Camera camera;
-    CameraController cameraController;
     Texture texture;
+
+    CameraController cameraController;
+    ChunkManager chunkManager;
 };
 
 #endif //WORLD_H

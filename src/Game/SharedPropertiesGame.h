@@ -8,7 +8,10 @@
 #define SHAREDPROPERTIESGAME_H
 
 struct SharedPropertiesGame {
-    float cameraSpeed = 2.5f;
+    float cameraSpeed = 8.0f;
+    const static int CHUNK_SIZE = 16;
+    const static int CHUNK_HEIGHT = 256;
+    int renderDistance = 2;
 };
 
 #endif //SHAREDPROPERTIESGAME_H

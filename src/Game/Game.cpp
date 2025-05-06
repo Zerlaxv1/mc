@@ -30,6 +30,9 @@ Game::Game() {
 }
 
 int Game::run() {
+    float chunkUpdateTimer = 0.0f;
+    const float chunkUpdateInterval = 6.0f;
+    
     while (!windowGLFW.shouldClose()) {
 
         // calcul deltaTime
@@ -79,6 +82,13 @@ int Game::run() {
         world.render();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Map update
+        chunkUpdateTimer += deltaTime;
+        if (chunkUpdateTimer >= chunkUpdateInterval) {
+            world.updateLoadedChunks();
+            chunkUpdateTimer = 0.0f;
+        }
 
         // Swap buffers
         glfwSwapBuffers(windowGLFW.window);
