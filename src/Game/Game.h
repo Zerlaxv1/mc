@@ -33,6 +33,7 @@ private:
     float lastFrame = 0.0f;
 
     bool cameraLocked;
+    void imguiFrame();
 };
 
 
