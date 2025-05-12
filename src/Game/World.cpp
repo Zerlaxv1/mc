@@ -11,11 +11,11 @@ Chunk *World::getChunk(int x, int y, int z) {
     return chunkManager.getChunk(x, y, z);
 }
 
-void World::updateLoadedChunks() {
-    chunkManager.updateLoadedChunks(sharedPropsEngine.cameraPos);
-    // Re-combiner les meshes après avoir mis à jour les chunks
-    combineChunkMeshes();
-}
+// void World::updateLoadedChunks() {
+//     chunkManager.updateLoadedChunks(sharedPropsEngine.cameraPos);
+//     // Re-combiner les meshes après avoir mis à jour les chunks
+//     combineChunkMeshes();
+// }
 
 // activate the block at the given position in the given chunk
 void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ) {
@@ -29,6 +29,10 @@ void World::activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int vo
 
 // render world
 void World::render() {
+    if (chunkManager.updateLoadedChunks(sharedPropsEngine.cameraPos)) {
+        combineChunkMeshes();
+    }
+
     renderer.draw();
 }
 

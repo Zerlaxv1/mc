@@ -72,11 +72,6 @@ void Chunk::generateFlatChunk(int worldX, int worldZ)
             blocks[getBlockIndex(x, 7, z)] = BlockID::GRASS;
         }
     }
-
-    // Ajouter des logs de débogage
-    std::cout << "Generated flat chunk at world position (" << worldX << ", " << worldZ
-              << ") with dimensions " << CHUNK_SIZE << "x" << CHUNK_HEIGHT
-              << "x" << CHUNK_SIZE << std::endl;
 }
 
 /**

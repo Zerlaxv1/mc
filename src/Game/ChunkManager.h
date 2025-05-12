@@ -16,6 +16,7 @@ private:
     SharedPropertiesGame& sharedPropsGame;
     int renderDistance = 0;
     int chunkSize = 0;
+    std::tuple<int,int,int> oldCameraChunkPos;
 
     Chunk& createChunk(int x, int y, int z);
     bool chunkExists(int x, int y, int z) const;
@@ -25,7 +26,7 @@ public:
     Chunk* getChunk(int x, int y, int z);
     void removeChunk(int x, int y, int z);
     
-    void updateLoadedChunks(const glm::vec3& playerPos);
+    bool updateLoadedChunks(const glm::vec3& playerPos);
     std::vector<Mesh> getAllChunkMeshes();
     void generateFlatWorld(int centerX, int centerZ, int sizeX, int sizeZ, int chunkSize);
     std::tuple<int, int, int> worldToChunkCoordinates(float x, float y, float z, int chunkSize) const;

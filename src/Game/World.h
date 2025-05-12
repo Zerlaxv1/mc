@@ -26,7 +26,7 @@ public:
 
     Chunk* getChunk(int x, int y, int z);
     void activateBlock(int chunkX, int chunkY, int chunkZ, int voxelX, int voxelY, int voxelZ);
-    void updateLoadedChunks();
+    // void updateLoadedChunks();
     void combineChunkMeshes();
 
     // void generateFlatWorld();
