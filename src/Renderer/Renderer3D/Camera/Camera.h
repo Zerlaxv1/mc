@@ -2,13 +2,12 @@
 // Created by Nino on 17/09/2024.
 //
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "SharedPropertiesEngine.h"
+#include "Renderer/SharedPropertiesEngine.h"
 
 enum Camera_Movement {
     FORWARD,
@@ -55,6 +54,3 @@ private:
     // euler Angles
     float Yaw, Pitch = 0.0f;
 };
-
-
-#endif //CAMERA_H

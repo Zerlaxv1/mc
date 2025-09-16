@@ -2,12 +2,11 @@
 // Created by Nino on 11/08/2024.
 //
 
-#ifndef CHUNK_H
-#define CHUNK_H
+#pragma once
 
-#include "SharedPropertiesGame.h"
-#include "../Engine/Mesh.h"
-#include "Blocks/Blocks.h"
+#include "Game/SharedPropertiesGame.h"
+#include "Renderer/Renderer3D/SceneGraph/Mesh.h"
+#include "Blocks.h"
 #include <vector>
 
 class Chunk {
@@ -40,7 +39,3 @@ private:
     int chunkWorldX = 0;
     int chunkWorldZ = 0;
 };
-
-
-
-#endif //CHUNK_H

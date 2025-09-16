@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "Window.h"
-#include "../Game/Game.h"
+#include "Game/Game.h"
 
 void framebuffer_size_callback([[maybe_unused]] GLFWwindow* _, int width, int height, Game* game) {
     glViewport(0, 0, width, height);

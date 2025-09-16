@@ -2,8 +2,7 @@
 // Created by Nino on 10/08/2024.
 //
 
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -31,7 +30,3 @@ private:
     GLuint compileShader(GLenum type, const char* source);
 
 };
-
-
-
-#endif //SHADER_H

@@ -2,16 +2,14 @@
 // Created by Nino on 25/08/2024.
 //
 
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <GL/glew.h>
-#include "../Engine/Window.h"
+#include "Renderer/Window/Window.h"
 #include <windows.h>
-#include "World.h"
-#include "../GlTries/RendererTests.h"
-#include "Blocks/Block.h"
-#include "Blocks/Blocks.h"
+#include "World/World.h"
+#include "World/ChunkManager/Chunk/Block.h"
+#include "World/ChunkManager/Chunk/Blocks.h"
 
 class Game {
 public:
@@ -35,7 +33,3 @@ private:
     bool cameraLocked;
     void imguiFrame();
 };
-
-
-
-#endif //GAME_H

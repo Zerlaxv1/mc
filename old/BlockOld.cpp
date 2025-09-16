@@ -2,7 +2,7 @@
 // Created by Nino on 11/08/2024.
 //
 
-#include "BlockOld.h"
+#include "../src/Game/Blocks/BlockOld.h"
 #include <vector>
 #include <GL/glew.h>
 

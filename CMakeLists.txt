@@ -34,53 +34,22 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(imgui stb)
 
 # ========== Organisation des sources ==========
-# Sources du moteur
-set(ENGINE_SOURCES
-    src/Engine/Shader.cpp
-    src/Engine/Renderer.cpp
-    src/Engine/Renderer.h
-    src/Engine/Window.cpp
-    src/Engine/Window.h
-    src/Engine/Camera.cpp
-    src/Engine/Camera.h
-    src/Engine/Texture.cpp
-    src/Engine/Texture.h
-    src/Engine/Mesh.cpp
-    src/Engine/Mesh.h
-    src/Engine/SharedPropertiesEngine.h
+# Collecter automatiquement tous les fichiers sources
+file(GLOB_RECURSE SOURCES
+    "src/*.cpp"
+    "src/*.h"
 )
 
-# Sources du jeu
-set(GAME_SOURCES
-    src/Game/Chunk.cpp
-    src/Game/Chunk.h
-    src/Game/World.cpp
-    src/Game/World.h
-    src/Game/Game.cpp
-    src/Game/Game.h
-        src/Game/CameraController.cpp
-        src/Game/CameraController.h
-        src/Game/ChunkManager.cpp
-        src/Game/ChunkManager.h
-)
+# Exclure les fichiers de test si nécessaire (optionnel)
+# list(FILTER SOURCES EXCLUDE REGEX ".*test.*")
 
-# Sources des blocs
-set(BLOCKS_SOURCES
-    src/Game/Blocks/Blocks.cpp
-    src/Game/Blocks/Blocks.h
-    src/Game/Blocks/Block.cpp
-    src/Game/Blocks/Block.h
-    src/Game/Blocks/Textures.cpp
-    src/Game/Blocks/Textures.h
-)
-
-# Regrouper toutes les sources
-set(SOURCES
-    src/main.cpp
-    ${ENGINE_SOURCES}
-    ${GAME_SOURCES}
-    ${BLOCKS_SOURCES}
-)
+# Afficher les fichiers trouvés pour debug (optionnel)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Sources trouvées:")
+    foreach(SOURCE ${SOURCES})
+        message(STATUS "  ${SOURCE}")
+    endforeach()
+endif()
 
 # ========== Configuration ImGui ==========
 set(IMGUI_DIR "${imgui_SOURCE_DIR}")

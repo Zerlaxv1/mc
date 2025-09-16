@@ -4,8 +4,7 @@
 
 #include "Chunk.h"
 #include <array>
-#include "Blocks/BlockOld.h"
-#include "Blocks/Blocks.h"
+#include "Game/World/ChunkManager/Chunk/Blocks.h"
 
 // generate a chunk with all blocks set to air
 Chunk::Chunk(int worldX, int worldZ) : chunkWorldX(worldX), chunkWorldZ(worldZ),

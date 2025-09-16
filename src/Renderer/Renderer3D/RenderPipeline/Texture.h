@@ -2,8 +2,7 @@
 // Created by ninod on 18/09/2024.
 //
 
-#ifndef MC_TEXTURE_H
-#define MC_TEXTURE_H
+#pragma once
 
 #include <GL/glew.h>
 #include <string>
@@ -21,5 +20,3 @@ private:
     void createTexture(const char* imagePath);
 };
 
-
-#endif //MC_TEXTURE_H

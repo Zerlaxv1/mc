@@ -2,11 +2,11 @@
 // Created by Nino on 01/09/2024.
 //
 
-#include "Renderer.h"
+#include "Renderer/Renderer3D/Renderer.h"
 #include <iostream>
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
-#include "Texture.h"
+#include "Renderer/Renderer3D/RenderPipeline/Texture.h"
 
 void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
                                 const GLchar *message, const void *userParam) {

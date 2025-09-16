@@ -2,12 +2,11 @@
 // Created by ninod on 06/05/2025.
 //
 
-#ifndef CHUNKMANAGER_H
-#define CHUNKMANAGER_H
-#include <map>
+#pragma once
 
-#include "Chunk.h"
-#include "SharedPropertiesGame.h"
+#include <map>
+#include "Game/World/ChunkManager/Chunk/Chunk.h"
+#include "Game/SharedPropertiesGame.h"
 
 
 class ChunkManager {
@@ -31,7 +30,3 @@ public:
     void generateFlatWorld(int centerX, int centerZ, int sizeX, int sizeZ, int chunkSize);
     std::tuple<int, int, int> worldToChunkCoordinates(float x, float y, float z, int chunkSize) const;
 };
-
-
-
-#endif //CHUNKMANAGER_H

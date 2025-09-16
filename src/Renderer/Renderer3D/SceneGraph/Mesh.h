@@ -2,8 +2,7 @@
 // Created by ninod on 18/09/2024.
 //
 
-#ifndef MC_MESH_H
-#define MC_MESH_H
+#pragma once
 
 #include <vector>
 #include <GL/glew.h>
@@ -59,6 +58,3 @@ private:
 
     void printVertices();
 };
-
-
-#endif //MC_MESH_H

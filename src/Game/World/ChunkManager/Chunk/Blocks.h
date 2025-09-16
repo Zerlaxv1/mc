@@ -2,8 +2,7 @@
 // Created by ninod on 24/09/2024.
 //
 
-#ifndef MC_BLOCKS_H
-#define MC_BLOCKS_H
+#pragma once
 
 #include "Block.h"
 
@@ -22,6 +21,3 @@ public:
 private:
     static std::vector<Block> blockList;
 };
-
-
-#endif //MC_BLOCKS_H

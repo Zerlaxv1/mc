@@ -4,7 +4,7 @@
 
 #include "World.h"
 
-#include "Blocks/Textures.h"
+#include "Game/World/ChunkManager/Chunk/Textures.h"
 
 // return the chunk at the given position
 Chunk *World::getChunk(int x, int y, int z) {

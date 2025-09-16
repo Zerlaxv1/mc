@@ -2,8 +2,7 @@
 // Created by ninod on 16/09/2024.
 //
 
-#ifndef MC_WINDOW_H
-#define MC_WINDOW_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 
@@ -27,6 +26,3 @@ private:
     float lastX = 400, lastY = 300;
     bool firstMouse = true;
 };
-
-
-#endif //MC_WINDOW_H

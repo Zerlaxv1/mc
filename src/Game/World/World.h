@@ -2,18 +2,17 @@
 // Created by Nino on 11/08/2024.
 //
 
-#ifndef WORLD_H
-#define WORLD_H
+#pragma once
 
 #include <map>
 #include <tuple>
 
-#include "CameraController.h"
-#include "Chunk.h"
-#include "../Engine/Camera.h"
-#include "../Engine/Renderer.h"
-#include "SharedPropertiesGame.h"
-#include "ChunkManager.h"
+#include "Game/GameSystems/CameraController.h"
+#include "Game/World/ChunkManager/Chunk/Chunk.h"
+#include "Renderer/Renderer3D/Camera/Camera.h"
+#include "Renderer/Renderer3D/Renderer.h"
+#include "Game/SharedPropertiesGame.h"
+#include "Game/World/ChunkManager/ChunkManager.h"
 
 class World {
 public:
@@ -48,5 +47,3 @@ private:
     CameraController cameraController;
     ChunkManager chunkManager;
 };
-
-#endif //WORLD_H

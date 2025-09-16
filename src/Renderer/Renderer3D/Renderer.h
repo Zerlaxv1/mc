@@ -2,14 +2,13 @@
 // Created by Nino on 01/09/2024.
 //
 
-#ifndef RENDERER_H
-#define RENDERER_H
+#pragma once
 
-#include "Shader.h"
-#include "Camera.h"
-#include "Mesh.h"
-#include "SharedPropertiesEngine.h"
-#include "Texture.h"
+#include "Renderer/Renderer3D/RenderPipeline/Shader.h"
+#include "Renderer/Renderer3D/Camera/Camera.h"
+#include "Renderer/Renderer3D/SceneGraph/Mesh.h"
+#include "Renderer/SharedPropertiesEngine.h"
+#include "Renderer/Renderer3D/RenderPipeline/Texture.h"
 
 class Renderer {
 public:
@@ -30,7 +29,3 @@ private:
     SharedPropertiesEngine* sharedPropsEngine;
     float AspectRatio;
 };
-
-
-
-#endif //RENDERER_H

@@ -2,15 +2,12 @@
 // Created by ninod on 24/09/2024.
 //
 
-// src/Game/Blocks/Block.h
-
-#ifndef MC_BLOCK_H
-#define MC_BLOCK_H
+#pragma once
 
 #include <string>
 #include <iostream>
 #include <vector>
-#include "../../Engine/Mesh.h"
+#include "Renderer/Renderer3D/SceneGraph/Mesh.h"
 
 class Block {
 public:
@@ -40,5 +37,3 @@ public:
     // does the black have transparency?
     bool isTransparent() const;
 };
-
-#endif //MC_BLOCK_H

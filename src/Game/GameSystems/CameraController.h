@@ -2,11 +2,10 @@
 // Created by ninod on 05/05/2025.
 //
 
-#ifndef CAMERACONTROLLER_H
-#define CAMERACONTROLLER_H
+#pragma once
 
-#include "SharedPropertiesGame.h"
-#include "../Engine/Camera.h"
+#include "Game/SharedPropertiesGame.h"
+#include "Renderer/Renderer3D/Camera/Camera.h"
 
 // Dans Game/CameraController.h
 class CameraController {
@@ -24,7 +23,3 @@ public:
     void ProcessMouseScroll(float yoffset);
     void toggleLock();
 };
-
-
-
-#endif //CAMERACONTROLLER_H
